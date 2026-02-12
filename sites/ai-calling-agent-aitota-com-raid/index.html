@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai Calling Agent - Aitota.com Q&A</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #0f0f0f;
+            --card-background: rgba(255,255,255,0.04);
+            --card-border: rgba(255,255,255,0.08);
+            --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            --primary-color: #10b981;
+            --secondary-color: #0ea5e9;
+            --text-color: #f0f0f0;
+            --muted-text: #a0a0a0;
+            --button-surface: #1a1a1a;
+            --button-text: #f0f0f0;
+            --hover-glow: rgba(16, 185, 129, 0.4); /* Primary color glow */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            background-image: linear-gradient(to right, transparent, var(--primary-color), transparent);
+            background-size: 100% 2px;
+            background-repeat: no-repeat;
+            background-position: bottom center;
+            animation: pulse-border 2s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            from {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-color);
+            letter-spacing: 1px;
+        }
+
+        .qa-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--card-shadow);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            width: 100%;
+            max-width: 700px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 16px;
+        }
+
+        .question-header h3 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 16px;
+            object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .author-bio {
+            font-size: 0.9em;
+            color: var(--muted-text);
+        }
+
+        .answer-body {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: var(--text-color);
+            text-align: justify;
+            max-height: 150px; /* Initial max height for truncation */
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            position: relative; /* For gradient overlay */
+        }
+
+        .answer-body.expanded {
+            max-height: none;
+        }
+
+        .answer-body::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to bottom, rgba(15,15,15,0), var(--card-background));
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .answer-body.expanded::after {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-top: 12px;
+            font-size: 1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: block;
+            text-align: left;
+        }
+
+        .read-more-btn:hover {
+            color: #059669; /* Darker shade of primary */
+            transform: translateX(5px);
+        }
+
+        blockquote {
+            margin: 20px 0;
+            padding: 15px 20px;
+            border-left: 4px solid var(--primary-color);
+            background-color: rgba(255,255,255,0.02);
+            font-style: italic;
+            color: var(--text-color);
+            quotes: "\201C""\201D""\2018""\2019";
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        blockquote p {
+            margin: 0;
+        }
+
+        blockquote::before {
+            content: '\201C';
+            font-size: 2em;
+            line-height: 0.1em;
+            vertical-align: -0.3em;
+            color: var(--primary-color);
+            margin-right: 0.1em;
+        }
+
+        blockquote::after {
+            content: '\201D';
+            font-size: 2em;
+            line-height: 0.1em;
+            vertical-align: -0.3em;
+            color: var(--primary-color);
+            margin-left: 0.1em;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--card-border);
+            gap: 16px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--button-surface);
+            color: var(--button-text);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--card-background);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 16px var(--hover-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn .material-icons {
+            font-size: 1.2em;
+        }
+
+        .share-btn-action {
+            /* Specific styles if needed */
+        }
+
+        .back-to-home-container {
+            text-align: center;
+            margin-top: 48px;
+            margin-bottom: 32px;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 12px;
+            background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-to-home-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.6);
+            background-image: linear-gradient(45deg, #059669, #0ea5e9); /* Darker shades on hover */
+        }
+
+        .back-to-home-btn .material-icons {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1em;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease-in-out;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Ai calling agent aitota.com</h1>
+    </header>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Author Avatar" class="author-avatar">
+            <div class="author-info">
+                <div class="author-name">Aditya Verma</div>
+                <div class="author-bio">AI Ethicist & Consultant</div>
+            </div>
+        </div>
+        <div class="question-header">
+            <h3>What exactly is an AI calling agent like Aitota.com, and how does it fundamentally differ from a traditional chatbot?</h3>
+        </div>
+        <div class="answer-body">
+            <p>
+                Ah, the intriguing world of AI calling agents! It's a fantastic question that gets to the heart of what modern conversational AI can achieve. Think of an AI calling agent like Aitota.com not just as a program that *responds*, but as an entity that can *initiate and conduct a voice conversation* with human beings, mimicking the nuanced flow and understanding of a real person.
+            </p>
+            <p>
+                The fundamental difference from a traditional chatbot lies in the <em>medium</em> and the <em>depth of interaction</em>. Chatbots, by their nature, operate within text-based interfaces – think of those little chat windows on websites or messaging apps. They're excellent for quick queries, FAQs, or simple transactions. However, they're confined to typed words, lacking the rich expressiveness of voice, tone, and immediate back-and-forth that a phone call entails.
+            </p>
+            <p>
+                An AI calling agent, on the other hand, leverages advanced Natural Language Processing (NLP) and speech synthesis/recognition technologies to engage in spoken dialogues. This means it can understand spoken language, process the intent behind it, formulate a coherent spoken response, and even convey a sense of empathy or urgency through its voice. It's the difference between reading a script and having an actual conversation. For instance, if you're calling customer service, a traditional chatbot might guide you through menus, whereas an AI agent could potentially understand your complex issue, ask clarifying questions, and even access your account information verbally.
+            </p>
+            <blockquote>
+                <p>
+                    It's about bridging the gap between automated efficiency and genuine human-like interaction, all through the power of voice.
+                </p>
+            </blockquote>
+            <p>
+                Aitota.com, specifically, likely focuses on making these AI conversations more natural, context-aware, and purpose-driven. This might involve training the AI on specific business needs – be it sales, customer support, appointment setting, or even proactive outreach. The goal is to handle a significant portion of voice-based interactions, freeing up human agents for more complex or sensitive tasks. This isn't just about playing back pre-recorded messages; it's about dynamic, real-time conversation that can adapt to the user's input, pauses, and even emotional state, a feat far beyond the capabilities of most static chatbots.
+            </p>
+            <p>
+                The underlying technology involves complex machine learning models trained on vast datasets of human speech and conversation. These models enable the AI to handle variations in accent, speech impediments, background noise, and the general unpredictability of human speech. So, while a chatbot is a text-based assistant, an AI calling agent is a voice-based conversationalist, capable of a much more dynamic and immersive interaction.
+            </p>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span> Copy</button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+        <button class="read-more-btn">Read More</button>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/women/73.jpg" alt="Author Avatar" class="author-avatar">
+            <div class="author-info">
+                <div class="author-name">Priya Desai</div>
+                <div class="author-bio">Customer Experience Strategist</div>
+            </div>
+        </div>
+        <div class="question-header">
+            <h3>In what practical business scenarios can an AI calling agent like Aitota.com bring the most value?</h3>
+        </div>
+        <div class="answer-body">
+            <p>
+                This is where the magic truly happens – translating sophisticated AI technology into tangible business results. AI calling agents like Aitota.com aren't just a novelty; they're powerful tools that can revolutionize customer engagement and operational efficiency across a multitude of industries. The value they bring is often centered around <em>scalability, consistency, and cost-effectiveness</em> in handling voice-based interactions.
+            </p>
+            <p>
+                One of the most prominent areas is <strong>customer support and service</strong>. Imagine a scenario where a customer calls with a common query – perhaps about their billing, an order status, or troubleshooting a basic issue. An AI agent can handle these routine calls instantly, 24/7, without the wait times often associated with human agents. This not only improves customer satisfaction by providing immediate assistance but also significantly reduces the workload on human support teams, allowing them to focus on more complex, empathetic, or high-value customer interactions that truly require a human touch.
+            </p>
+            <p>
+                Then there's the realm of <strong>sales and lead generation</strong>. AI calling agents can be deployed for outbound campaigns to qualify leads, schedule appointments, or even conduct initial product introductions. For instance, an AI could call a list of potential customers, engage them with a compelling pitch, answer basic questions, and if there's interest, book a follow-up call with a human sales representative. This is a far more efficient way to reach a broad audience than relying solely on human telemarketers, ensuring that sales teams spend their time interacting with genuinely interested prospects.
+            </p>
+            <blockquote>
+                <p>
+                    It's about automating the repeatable, so humans can excel at the relational.
+                </p>
+            </blockquote>
+            <p>
+                <strong>Appointment setting and reminders</strong> are another sweet spot. For businesses like healthcare providers, salons, or service companies, an AI agent can efficiently manage appointment bookings, send reminders, and handle cancellations or rescheduling requests. This reduces no-shows, optimizes schedules, and ensures a smoother operational flow. The AI can have a natural conversation, understand availability, and confirm bookings, all without human intervention.
+            </p>
+            <p>
+                Furthermore, in sectors requiring regular communication, such as <strong>debt collection or account recovery</strong>, AI agents can initiate calls to remind customers of payments, offer flexible payment plans, and gather information in a structured, non-confrontational manner. This consistency and the ability to handle a high volume of calls can be invaluable. Finally, for <strong>market research and surveys</strong>, AI agents can conduct outbound calls to gather feedback, gather opinions, and conduct simple polls, providing businesses with real-time data and insights into customer sentiment and market trends. The key is that Aitota.com aims to make these interactions not just functional, but also pleasant and effective.
+            </p>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span> Copy</button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+        <button class="read-more-btn">Read More</button>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/18.jpg" alt="Author Avatar" class="author-avatar">
+            <div class="author-info">
+                <div class="author-name">Rohan Kapoor</div>
+                <div class="author-bio">AI & Machine Learning Engineer</div>
+            </div>
+        </div>
+        <div class="question-header">
+            <h3>How does Aitota.com handle nuances in human conversation, like tone of voice, sarcasm, or emotional cues?</h3>
+        </div>
+        <div class="answer-body">
+            <p>
+                This is precisely where the sophistication of modern AI, especially platforms like Aitota.com, really shines, and it's a far cry from the rigid, script-following bots of yesteryear. Handling conversational nuances like tone, sarcasm, and emotional cues is an ongoing challenge, but AI is making remarkable strides. It's not perfect, but the progress is significant, and it's driven by sophisticated Natural Language Understanding (NLU) and advancements in sentiment analysis.
+            </p>
+            <p>
+                At its core, it starts with <strong>advanced speech recognition</strong> that goes beyond just transcribing words. It analyzes acoustic features of speech – pitch, cadence, volume, and speech rate. These elements are crucial indicators of emotion. For example, a rapid, high-pitched tone might suggest urgency or excitement, while a slower, lower pitch could indicate calmness or sadness. AI models are trained on vast datasets that correlate these acoustic patterns with specific emotions.
+            </p>
+            <p>
+                Beyond acoustics, <strong>Natural Language Processing (NLP) and Natural Language Understanding (NLU)</strong> play a massive role. These technologies help the AI parse the meaning of words, but also the context. Sarcasm, for instance, is incredibly difficult because it often relies on saying the opposite of what you mean, with the true meaning conveyed through tone or context. AI models learn to detect this by looking for incongruity between the literal meaning of words and the overall sentiment or context of the conversation. If someone says, "Oh, *great*, another delay," the AI might flag "great" as potentially sarcastic due to the preceding negative context ("another delay").
+            </p>
+            <blockquote>
+                <p>
+                    The goal is to move beyond simply processing words to understanding the *human behind the voice*.
+                </p>
+            </blockquote>
+            <p>
+                <strong>Sentiment analysis</strong> is a key component here. AI algorithms are trained to identify the emotional tone of a spoken phrase or sentence – whether it's positive, negative, or neutral, and often more granular emotions like frustration, happiness, or confusion. This analysis can be based on the words used (lexical analysis) and the way they are spoken (acoustic analysis). When an AI detects frustration in a caller's voice, it can adjust its response strategy – perhaps by being more apologetic, offering a different solution, or escalating the call to a human agent more quickly.
+            </p>
+            <p>
+                For platforms like Aitota.com, this means the AI isn't just executing a command; it's attempting to <em>interpret</em> the caller's state. This allows for more empathetic and effective interactions. If a customer sounds distressed, the AI might respond with a more reassuring tone or a phrase like, "I understand this must be frustrating for you." While AI can't truly *feel* emotions, it can be trained to recognize their linguistic and acoustic signatures and respond in a way that is perceived as understanding and appropriate by the human interlocutor. It's a continuous learning process, with each interaction feeding back into the model to improve its ability to decipher these complex human signals.
+            </p>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span> Copy</button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+        <button class="read-more-btn">Read More</button>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/women/88.jpg" alt="Author Avatar" class="author-avatar">
+            <div class="author-info">
+                <div class="author-name">Anjali Sharma</div>
+                <div class="author-bio">Digital Transformation Consultant</div>
+            </div>
+        </div>
+        <div class="question-header">
+            <h3>What are the potential ethical considerations and challenges when deploying AI calling agents like Aitota.com at scale?</h3>
+        </div>
+        <div class="answer-body">
+            <p>
+                This is a crucial conversation to have, and frankly, one of the most important aspects to consider when adopting powerful AI technologies. Deploying AI calling agents like Aitota.com at scale brings immense potential benefits, but it also surfaces a spectrum of ethical considerations and challenges that demand careful attention and proactive management. The core tension often lies between efficiency and human dignity, transparency and data privacy.
+            </p>
+            <p>
+                One of the primary ethical concerns is <strong>transparency and disclosure</strong>. Should an AI agent always identify itself as such, or is it acceptable for it to mimic human conversation so closely that callers are unaware they're speaking to a machine? Most ethical frameworks advocate for clear disclosure to avoid deception and ensure callers can make informed decisions about their interaction. If callers believe they are speaking to a human and receive a less-than-ideal response or encounter limitations, it can lead to frustration and erode trust. Aitota.com, like any responsible provider, should prioritize clear identification.
+            </p>
+            <p>
+                <strong>Data privacy and security</strong> are paramount. AI calling agents collect vast amounts of conversational data, which can include sensitive personal information. Ensuring this data is handled securely, stored appropriately, and used only for its intended purpose is critical. Robust data protection policies, compliance with regulations like GDPR or CCPA, and strong cybersecurity measures are non-negotiable. The potential for misuse or breaches of this conversational data is a significant risk.
+            </p>
+            <blockquote>
+                <p>
+                    With great power comes great responsibility, especially when that power involves direct human interaction.
+                </p>
+            </blockquote>
+            <p>
+                Another significant challenge is <strong>bias and fairness</strong>. AI models are trained on data, and if that data reflects societal biases (e.g., historical biases in customer service interactions), the AI can perpetuate or even amplify them. This could lead to discriminatory outcomes for certain demographic groups. For example, an AI might be less effective at understanding accents from certain regions or might offer different solutions based on implicit biases learned from its training data. Rigorous testing, diverse training datasets, and continuous monitoring are essential to mitigate bias.
+            </p>
+            <p>
+                Furthermore, the <strong>impact on employment</strong> is a substantial ethical consideration. As AI agents become more capable, they can automate tasks previously performed by human call center agents, potentially leading to job displacement. Businesses have an ethical responsibility to consider the human impact of automation, perhaps through reskilling programs or focusing AI on augmentation rather than outright replacement. Finally, there's the challenge of <strong>accountability</strong>. When an AI makes a mistake or causes harm, who is responsible – the developer, the deploying company, or the AI itself? Establishing clear lines of accountability and mechanisms for recourse is vital for building trust and ensuring ethical deployment.
+            </p>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span> Copy</button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+        <button class="read-more-btn">Read More</button>
+    </div>
+
+    <div class="back-to-home-container">
+        <a href="https://aitota-community.pages.dev/" class="back-to-home-btn">
+            <span class="material-icons">home</span> Back to Home
+        </a>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const readMoreButtons = document.querySelectorAll('.read-more-btn');
+            readMoreButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const cardBody = button.previousElementSibling; // The answer-body div
+                    cardBody.classList.toggle('expanded');
+
+                    if (cardBody.classList.contains('expanded')) {
+                        button.textContent = 'Read Less';
+                    } else {
+                        button.textContent = 'Read More';
+                    }
+                });
+            });
+
+            // Share button logic
+            const shareButtons = document.querySelectorAll('.share-btn-action');
+            const currentUrl = window.location.href;
+            const toastElement = document.getElementById('toast');
+
+            shareButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: document.title,
+                                url: currentUrl
+                            });
+                            console.log('Shared successfully!');
+                        } catch (error) {
+                            console.error('Error sharing:', error);
+                            showToast('Sharing failed.');
+                        }
+                    } else {
+                        // Fallback for browsers that don't support navigator.share
+                        navigator.clipboard.writeText(currentUrl).then(() => {
+                            showToast('Link copied to clipboard!');
+                        }).catch(err => {
+                            console.error('Failed to copy URL: ', err);
+                            showToast('Failed to copy link.');
+                        });
+                    }
+                });
+            });
+
+            // Copy button logic (simple clipboard copy)
+            const copyButtons = document.querySelectorAll('.action-bar .btn:has(.material-icons.content_copy)');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    navigator.clipboard.writeText(currentUrl).then(() => {
+                        showToast('Link copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Failed to copy URL: ', err);
+                        showToast('Failed to copy link.');
+                    });
+                });
+            });
+
+            function showToast(message) {
+                toastElement.textContent = message;
+                toastElement.classList.add('show');
+                setTimeout(() => {
+                    toastElement.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+
+</body>
+</html>
