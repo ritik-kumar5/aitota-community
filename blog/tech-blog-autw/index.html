@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Human Algorithm: Exploring the Ethical Fabric of Technology</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --background: #0a0a0f;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --card-bg: #1a1a2a;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            padding-top: 5px; /* Space for progress bar */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background-color: var(--primary);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease-out;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Article Header */
+        .article-header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .article-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .article-header .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--text-secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--background);
+            font-weight: 700;
+        }
+
+        .reading-time {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Hero Image */
+        .hero-image-container {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Table of Contents */
+        .toc-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .toc-card h3 {
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .toc-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc-card li {
+            margin-bottom: 10px;
+        }
+
+        .toc-card a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc-card a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .article-content {
+            padding-bottom: 4rem;
+        }
+
+        .section {
+            margin-bottom: 3.5rem;
+            padding: 2rem 0;
+        }
+
+        .section:not(:last-child) {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .section p {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section ul, .section ol {
+            margin-bottom: 1.5rem;
+            padding-left: 25px;
+        }
+
+        .section li {
+            margin-bottom: 0.8rem;
+        }
+
+        .section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 2rem auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Blockquote */
+        .article-content blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary);
+            color: var(--text-primary);
+            font-style: italic;
+            font-size: 1.1rem;
+            position: relative;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .article-content blockquote p {
+            margin-bottom: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: #111;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            color: #f0f0f0;
+        }
+
+        pre code {
+            display: block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        pre:hover .copy-code-btn {
+            opacity: 1;
+        }
+
+        .copy-code-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Card-Based Sections */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .card ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .card li {
+            margin-bottom: 10px;
+        }
+
+        .card a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .card a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        .card.quick-tips {
+            border-left-color: var(--secondary);
+        }
+
+        .card.did-you-know {
+            border-left-color: var(--primary);
+        }
+
+        .card.important-callout {
+            border-left-color: #f87171; /* Reddish accent */
+        }
+
+        .card.step-by-step {
+            border-left-color: #3b82f6; /* Blue accent */
+        }
+
+        .card.pro-tip {
+            border-left-color: #10b981; /* Green accent */
+        }
+
+        /* Like Button */
+        .like-button-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .like-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .like-button:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        .like-button.liked {
+            background-color: #e11d48; /* Red for liked */
+            box-shadow: 0 6px 20px rgba(225, 29, 72, 0.5);
+        }
+
+        .like-button .heart-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .like-button.liked .heart-icon {
+            transform: scale(1.1);
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .comments-section h2 {
+            font-size: 1.75rem;
+            color: white;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .comment-form {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .comment-form input,
+        .comment-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #1a1a2a;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .comment-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-comment-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .submit-comment-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .article-header {
+                padding: 2.5rem 0 2rem;
+            }
+
+            .article-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .article-header .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .section {
+                padding: 1.5rem 0;
+            }
+
+            .section h2 {
+                font-size: 1.75rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .toc-card, .card {
+                padding: 20px;
+            }
+
+            .comments-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .comment-form {
+                padding: 20px;
+            }
+
+            .comment-form input,
+            .comment-form textarea {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .submit-comment-btn {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar"></div>
+
+    <header class="article-header container">
+        <h1>The Human Algorithm: Exploring the Ethical Fabric of Technology</h1>
+        <p class="subtitle">Discover the human side of technology. Our blog highlights the ethical implications, societal impacts, and future possibilities of technological progress, fostering informed dialogue.</p>
+        <div class="article-meta">
+            <div class="author-info">
+                <div class="author-avatar">JD</div>
+                <span>By Jane Doe</span>
+            </div>
+            <span>Published: October 27, 2023</span>
+            <div class="reading-time">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V4a.5.5 0 0 1 1 0z"/><path d="M8 4a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0V4.5A.5.5 0 0 0 7 4h-.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 1 0V8H8a.5.5 0 0 1 0 1h-.5a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 1 0V11H9a.5.5 0 0 1 0 1h-.5a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 1 0V8H10a.5.5 0 0 1 0 1h-.5a.5.5 0 0 1-.5.5v3a.5.5 0 0 1-1 0V9H9a.5.5 0 0 1-1 0V7H8a.5.5 0 0 1-.5-.5z"/><path d="M10.965 1.555a.5.5 0 0 1 .426.538c-.057.668-.138 1.379-.237 2.096a10.8 10.8 0 0 0-.435.804L10 6.513a4.96 4.96 0 0 0-.538-.935c-.794-.288-1.603-.434-2.437-.434-1.197 0-2.334.394-3.214.994a2.925 2.925 0 0 0-1.115 2.037c0 .793.217 1.535.628 2.113.41.578.993 1.008 1.679 1.268.58.222 1.214.347 1.87.347.805 0 1.574-.264 2.239-.62.667-.365 1.191-.824 1.575-1.365l.175-.254a2.28 2.28 0 0 0 .074-.293l.022-.111a.415.415 0 0 0-.014-.031.42.42 0 0 0-.044-.045c-.009-.009-.021-.016-.037-.022-.026-.009-.046-.017-.067-.026-.186-.064-.376-.113-.571-.155a5.07 5.07 0 0 0-1.635-.101c-.566 0-1.115.132-1.586.384-.53.274-.963.698-1.277 1.208-.313.51-.504.984-.504 1.553 0 .374.105.74.315 1.056.207.315.478.572.804.774.33.202.7.358 1.105.455.405.097.82.15 1.23.15.774 0 1.536-.243 2.227-.728.459-.316.835-.704 1.078-1.144.136-.244.214-.507.214-.781 0-.479-.121-.94-.343-1.368-.223-.428-.513-.782-.861-.997-.347-.212-.732-.343-1.141-.343a6.016 6.016 0 0 0-1.011.137.5.5 0 0 1-.436-.538z"/></svg></span>
+                <span>5 min read</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-image-container">
+            <img src="https://images.unsplash.com/photo-1553484771-689277e6fa16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4Njg1OTJ8MHwxfHNlYXJjaHwzMXx8dGVjaCUyMGJsb2clMjB8ZW58MHwwfHx8MTc3MDg4Mjk3MXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Abstract representation of technology and humanity">
+        </div>
+
+        <div class="toc-card">
+            <h3>Table of Contents</h3>
+            <ul>
+                <li><a href="#intro">Introduction: The Ethical Compass</a></li>
+                <li><a href="#what-is-human-tech">What is the Human Side of Technology?</a></li>
+                <li><a href="#ethical-dilemmas">Navigating Ethical Dilemmas</a></li>
+                <li><a href="#societal-impact">Societal Ripples: How Tech Shapes Us</a></li>
+                <li><a href="#future-possibilities">The Horizon: Future Possibilities</a></li>
+                <li><a href="#building-responsible-tech">Building Responsible Technology</a></li>
+                <li><a href="#key-takeaways">Key Takeaways</a></li>
+                <li><a href="#quick-tips">Quick Tips for Mindful Tech Use</a></li>
+                <li><a href="#did-you-know">Did You Know?</a></li>
+            </ul>
+        </div>
+
+        <div class="article-content">
+            <section id="intro" class="section">
+                <h2>Introduction: The Ethical Compass</h2>
+                <p>In an era defined by rapid technological advancement, it's easy to get swept up in the innovation, the speed, and the sheer power of what we can create. From artificial intelligence that learns and adapts, to virtual realities that blur the lines between the digital and physical, technology is no longer just a tool; it's an integral part of our lives, shaping our societies, our relationships, and our very understanding of what it means to be human.</p>
+                <p>However, with this unprecedented power comes profound responsibility. As we push the boundaries of what's possible, we must pause to consider the ethical implications, the societal impacts, and the long-term consequences of our creations. This blog is dedicated to exploring that crucial intersection – the human side of technology. We aim to foster informed dialogue, encourage critical thinking, and highlight the importance of building a future where technology serves humanity ethically and equitably.</p>
+            </section>
+
+            <section id="what-is-human-tech" class="section">
+                <h2>What is the Human Side of Technology?</h2>
+                <p>The "human side of technology" refers to the complex interplay between technological development and human experience. It's about understanding how technology affects individuals, communities, and society as a whole, considering not just its functionality but its impact on our values, our well-being, and our future. This encompasses everything from the psychological effects of social media to the economic implications of automation, and the fundamental questions about privacy and autonomy in a data-driven world.</p>
+                <p>It's about recognizing that technology isn't neutral. Every algorithm, every device, every platform is designed by humans, with inherent biases, intentions, and assumptions. Therefore, understanding the human side means examining the ethical frameworks guiding development, the societal structures that technology interacts with, and the potential for both immense good and significant harm. It's a call to move beyond mere technical feasibility and embrace a more holistic, human-centered approach to innovation.</p>
+                <img src="https://images.unsplash.com/photo-1721914963720-3e237cdd7910?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4Njg1OTJ8MHwxfHNlYXJjaHwzMnx8dGVjaCUyMGJsb2clMjB8ZW58MHwwfHx8MTc3MDg4Mjk3MXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Diverse group of people interacting with technology">
+            </section>
+
+            <section id="ethical-dilemmas" class="section">
+                <h2>Navigating Ethical Dilemmas</h2>
+                <p>As technology becomes more sophisticated, so too do the ethical dilemmas it presents. Consider the rise of AI: while offering incredible advancements in fields like healthcare and research, it also raises concerns about bias in decision-making, job displacement, and the very definition of consciousness. Facial recognition technology, for example, can enhance security but also poses significant privacy risks and potential for misuse in surveillance.</p>
+                <p>Another critical area is data privacy. In our interconnected world, vast amounts of personal data are collected, analyzed, and often monetized. This raises questions about consent, ownership, and the potential for exploitation. How do we balance the benefits of data-driven services with the fundamental right to privacy? These are not hypothetical scenarios; they are present-day challenges that require thoughtful consideration and robust ethical guidelines.</p>
+                <blockquote>
+                    <p>"The greatest danger in the age of artificial intelligence is not that machines will start thinking like humans, but that humans will start thinking like machines."</p>
+                    <footer>— Unknown</footer>
+                </blockquote>
+                <p>Addressing these dilemmas requires a multi-faceted approach involving technologists, ethicists, policymakers, and the public. We need frameworks that promote transparency, accountability, and fairness in technological development and deployment. This includes actively identifying and mitigating biases in algorithms, ensuring equitable access to technology, and establishing clear lines of responsibility when things go wrong.</p>
+            </section>
+
+            <section id="societal-impact" class="section">
+                <h2>Societal Ripples: How Tech Shapes Us</h2>
+                <p>Technology is a powerful force that reshapes our social fabric in profound ways. Social media platforms, while connecting us globally, have also been linked to issues of polarization, misinformation, and mental health challenges. The gig economy, enabled by digital platforms, offers flexibility but often lacks traditional worker protections. Even seemingly benign technologies can alter our behavior, from how we communicate to how we learn and work.</p>
+                <p>The digital divide remains a significant societal challenge. While some communities benefit immensely from technological advancements, others are left behind, exacerbating existing inequalities. Ensuring that technological progress is inclusive and benefits everyone is crucial for building a just and equitable society. This means investing in digital literacy, ensuring access to affordable technology, and designing solutions that address the specific needs of diverse populations.</p>
+                <img src="https://images.unsplash.com/photo-1753351055886-e2c6a4478314?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4Njg1OTJ8MHwxfHNlYXJjaHwzM3x8dGVjaCUyMGJsb2clMjB8ZW58MHwwfHx8MTc3MDg4Mjk3MXww&ixlib=rb-4.1.0&q=80&w=1080" alt="People in a community meeting discussing technology">
+            </section>
+
+            <section id="future-possibilities" class="section">
+                <h2>The Horizon: Future Possibilities</h2>
+                <p>Looking ahead, the potential for technology to positively impact humanity is immense. Innovations in renewable energy, sustainable agriculture, and personalized medicine hold the promise of addressing some of our most pressing global challenges. AI could revolutionize scientific discovery, accelerate climate solutions, and create new forms of art and expression.</p>
+                <p>However, the future is not predetermined. The path we take depends on the choices we make today. We must actively steer technological development towards outcomes that align with our values. This involves fostering interdisciplinary collaboration, prioritizing ethical considerations in research and development, and engaging in public discourse about the kind of future we want to build with technology. The goal is not to halt progress, but to guide it responsibly.</p>
+            </section>
+
+            <section id="building-responsible-tech" class="section">
+                <h2>Building Responsible Technology</h2>
+                <p>Creating technology that benefits humanity requires a conscious and deliberate effort. This starts with embedding ethical principles into the design process itself, often referred to as "ethics by design" or "responsible innovation." It means asking critical questions early and often: Who benefits from this technology? What are the potential harms? How can we mitigate risks?</p>
+                <p>This involves fostering diverse teams that bring a range of perspectives to the table, ensuring that technology is not built in an echo chamber. It also means embracing transparency in how technologies work and how data is used, and actively seeking feedback from users and affected communities. Ultimately, building responsible technology is about prioritizing human well-being and societal good alongside technical achievement.</p>
+                <div class="card step-by-step">
+                    <h3>Step-by-Step: Responsible Tech Development</h3>
+                    <ol>
+                        <li><strong>Define Ethical Goals:</strong> Clearly articulate the ethical principles guiding the project.</li>
+                        <li><strong>Conduct Impact Assessments:</strong> Proactively identify potential risks and harms.</li>
+                        <li><strong>Foster Diverse Teams:</strong> Ensure representation from various backgrounds and disciplines.</li>
+                        <li><strong>Prioritize Transparency:</strong> Be open about data usage and algorithmic decision-making.</li>
+                        <li><strong>User-Centric Design:</strong> Involve users and communities throughout the development lifecycle.</li>
+                        <li><strong>Continuous Monitoring & Iteration:</strong> Regularly review and update technologies based on real-world impact and feedback.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <div class="card key-takeaways">
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li>Technology's impact extends beyond functionality to human experience and societal structures.</li>
+                    <li>Ethical considerations are paramount in the development and deployment of new technologies.</li>
+                    <li>Responsible innovation requires a proactive, human-centered approach from inception to deployment.</li>
+                    <li>Addressing the digital divide and ensuring equitable access are crucial for societal well-being.</li>
+                    <li>The future of technology is shaped by the choices we make today.</li>
+                </ul>
+            </div>
+
+            <div class="card quick-tips">
+                <h3>Quick Tips for Mindful Tech Use</h3>
+                <ul>
+                    <li>Schedule regular digital detox periods.</li>
+                    <li>Be mindful of screen time and its impact on well-being.</li>
+                    <li>Curate your social media feeds to promote positive content.</li>
+                    <li>Question the information you consume online.</li>
+                    <li>Prioritize in-person interactions.</li>
+                </ul>
+            </div>
+
+            <div class="card did-you-know">
+                <h3>Did You Know?</h3>
+                <p>The concept of "tech ethics" has gained significant traction in recent years, leading to the establishment of dedicated research centers and professional roles focused on the responsible development and use of technology.</p>
+            </div>
+
+            <div class="like-button-container">
+                <button class="like-button" id="likeBtn">
+                    <span class="heart-icon">🤍</span>
+                    Like this post
+                </button>
+            </div>
+
+            <section class="comments-section">
+                <h2>Leave a Comment</h2>
+                <div class="comment-form">
+                    <form id="commentForm">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        <textarea id="comment" name="comment" placeholder="Your Comment" required></textarea>
+                        <button type="submit" class="submit-comment-btn">Post Comment</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTopBtn" title="Go to top">
+        &uarr;
+    </button>
+
+    <script>
+        const progressBar = document.querySelector('.progress-bar');
+        const backToTopButton = document.getElementById('backToTopBtn');
+        const likeButton = document.getElementById('likeBtn');
+        const heartIcon = likeButton.querySelector('.heart-icon');
+
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.scrollY;
+            const progressWidth = (scrolled / scrollHeight) * 100;
+            progressBar.style.width = `${progressWidth}%`;
+
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        likeButton.addEventListener('click', () => {
+            likeButton.classList.toggle('liked');
+            if (likeButton.classList.contains('liked')) {
+                heartIcon.textContent = '❤️';
+                likeButton.style.animation = 'pulse 0.5s ease-in-out';
+            } else {
+                heartIcon.textContent = '🤍';
+                likeButton.style.animation = 'none';
+            }
+            setTimeout(() => {
+                likeButton.style.animation = 'none';
+            }, 500);
+        });
+
+        // Basic form submission handling (no actual submission, just to show interaction)
+        document.getElementById('commentForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            alert('Thank you for your comment!');
+            event.target.reset();
+        });
+
+        // Add subtle animation for links in TOC and cards
+        document.querySelectorAll('.toc-card a, .card a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.transform = 'translateX(5px)';
+            });
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Add copy to clipboard functionality for code blocks
+        document.querySelectorAll('pre').forEach(pre => {
+            const copyBtn = document.createElement('button');
+            copyBtn.classList.add('copy-code-btn');
+            copyBtn.textContent = 'Copy';
+            pre.style.position = 'relative'; // Ensure positioning context for absolute button
+            pre.appendChild(copyBtn);
+
+            copyBtn.addEventListener('click', () => {
+                const code = pre.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy code: ', err);
+                    copyBtn.textContent = 'Failed!';
+                });
+            });
+        });
+
+        // Keyframes for pulse animation
+        const styleSheet = document.styleSheets[0];
+        styleSheet.insertRule(`
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+        `, styleSheet.cssRules.length);
+
+    </script>
+</body>
+</html>
