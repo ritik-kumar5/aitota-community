@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artificial Intelligence: Unraveling the Future</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --background: #0a0a0f;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --card-background: #1a1a2e;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px; /* For sticky progress bar */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Progress Bar */
+        #progressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background-color: var(--primary);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease-out;
+        }
+
+        /* Article Header */
+        .article-header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .article-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .article-header .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .author-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .author-info .avatar-placeholder {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--background);
+            font-weight: bold;
+        }
+
+        .reading-time {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Hero Image */
+        .hero-image-wrapper {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            display: block;
+            height: 400px; /* Fixed height */
+            object-fit: cover;
+        }
+
+        /* Section Styling */
+        .article-section {
+            margin-bottom: 3rem;
+            padding: 0 10px; /* For inner padding */
+        }
+
+        .article-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .article-section p {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .article-section ul,
+        .article-section ol {
+            margin-bottom: 1.5rem;
+            padding-left: 25px;
+        }
+
+        .article-section li {
+            margin-bottom: 0.8rem;
+        }
+
+        /* Images within content */
+        .content-image {
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            color: var(--text-primary);
+        }
+
+        pre code {
+            display: block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary);
+            color: var(--background);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        pre:hover .copy-code-btn {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .copy-code-btn:hover {
+            background-color: var(--primary);
+        }
+
+        /* Blockquote */
+        blockquote {
+            font-style: italic;
+            margin: 2rem 0;
+            padding: 1.5rem 1.5rem 1.5rem 3rem;
+            border-left: 5px solid var(--primary);
+            background-color: var(--card-background);
+            position: relative;
+            border-radius: 0 8px 8px 0;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        blockquote::before {
+            content: '"';
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            font-size: 3rem;
+            color: var(--secondary);
+            opacity: 0.3;
+        }
+
+        blockquote p {
+            margin-bottom: 0;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background-color: var(--primary);
+            border-radius: 8px 0 0 8px;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        .card ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        .card li {
+            margin-bottom: 0.8rem;
+        }
+
+        .card-content {
+            padding-left: 10px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Table of Contents Card */
+        #tocCard .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #tocCard a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #tocCard a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Key Takeaways Card */
+        #keyTakeawaysCard .card-content ul {
+            list-style-type: disc;
+            padding-left: 25px;
+        }
+
+        /* Quick Tips Card */
+        #quickTipsCard .card-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #quickTipsCard li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+        }
+
+        #quickTipsCard li::before {
+            content: '💡';
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        /* Did You Know Card */
+        #didYouKnowCard .card-content p {
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+        #didYouKnowCard::before {
+            background-color: var(--secondary);
+        }
+
+        /* Like Button */
+        #likeButton {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--card-background);
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            margin: 2rem auto;
+            font-size: 1rem;
+            color: var(--text-primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        #likeButton span {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        #likeButton:hover {
+            background-color: #1f1f3a;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .liked span {
+            transform: scale(1.2);
+            color: #ff4d4f; /* Red for liked heart */
+        }
+
+        /* Comments Section */
+        .comments-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 20px;
+        }
+
+        .comments-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .comment-form {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .comment-form input,
+        .comment-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #111;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .comment-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--background);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .submit-button:hover {
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Back to Top Button */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary);
+            color: var(--background);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        #backToTopBtn:hover {
+            background-color: var(--secondary);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.6);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .article-header {
+                padding: 2.5rem 0 2rem;
+            }
+
+            .article-header h1 {
+                font-size: 2rem;
+            }
+
+            .hero-image-wrapper img {
+                height: 250px;
+            }
+
+            .article-section {
+                padding: 0 1rem;
+            }
+
+            .article-section h2 {
+                font-size: 1.75rem;
+            }
+
+            .container, .comments-section {
+                padding: 0 15px;
+            }
+
+            .card {
+                padding: 1.2rem;
+            }
+
+            .comment-form {
+                padding: 1.5rem;
+            }
+
+            #backToTopBtn {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progressBar"></div>
+
+    <div class="container">
+        <header class="article-header">
+            <h1>Artificial Intelligence</h1>
+            <p class="subtitle">Unraveling the core concepts, exploring its transformative potential across industries, and the foundational principles driving this revolutionary technology.</p>
+            <div class="author-info">
+                <div class="avatar-placeholder">AI</div>
+                <span>By: AI Enthusiast</span>
+                <span>Published: October 26, 2023</span>
+            </div>
+            <div class="reading-time">🔥 7 min read</div>
+        </header>
+
+        <div class="hero-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1699100329878-7f28bb780787?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4Njg1OTJ8MHwxfHNlYXJjaHw0Nnx8QXJ0aWZpY2lhbCUyMEludGVsbGlnZW5jZXxlbnwwfDB8fHwxNzcwODgzNTM0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Abstract representation of AI">
+        </div>
+
+        <div class="article-section">
+            <h2>Introduction: The Dawn of Intelligent Machines</h2>
+            <p>Artificial Intelligence (AI) is no longer a concept confined to science fiction; it's a palpable force reshaping our present and charting the course for our future. At its heart, AI refers to the simulation of human intelligence processes by machines, especially computer systems. These processes include learning (the acquisition of information and rules for using the information), reasoning (using rules to reach approximate or definite conclusions), and self-correction.</p>
+            <p>This transformative technology promises to revolutionize every facet of our lives, from how we work and communicate to how we solve complex global challenges. Understanding AI is becoming increasingly crucial for navigating this rapidly evolving landscape. In this article, we'll delve into the fundamental principles, explore its diverse applications, and discuss the exciting possibilities it holds.</p>
+        </div>
+
+        <div class="article-section" id="what-is-ai">
+            <h2>What is Artificial Intelligence?</h2>
+            <p>Artificial Intelligence (AI) is a broad field of computer science concerned with building smart machines capable of performing tasks that typically require human intelligence. This includes understanding language, recognizing patterns, making decisions, and solving problems. AI aims to create systems that can perceive their environment, reason about it, and take appropriate actions to achieve specific goals.</p>
+            <p>The concept of AI can be broadly categorized into two types: narrow AI (or weak AI) and general AI (or strong AI). Narrow AI is designed and trained for a specific task, such as virtual assistants like Siri or Alexa, or recommendation engines on streaming platforms. General AI, on the other hand, refers to hypothetical AI with intellectual capability comparable to humans, able to understand, learn, and apply its intelligence to any problem. While general AI remains a long-term goal, narrow AI is already deeply integrated into our daily lives.</p>
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4Njg1OTJ8MHwxfHNlYXJjaHw0N3x8QXJ0aWZpY2lhbCUyMEludGVsbGlnZW5jZXxlbnwwfDB8fHwxNzcwODgzNTM0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Human interacting with AI interface" class="content-image">
+        </div>
+
+        <div class="article-section" id="foundational-principles">
+            <h2>Foundational Principles Driving AI</h2>
+            <p>At the core of AI are several key principles and technologies that enable machines to exhibit intelligent behavior. Machine Learning (ML) is a subset of AI that allows systems to learn from data without being explicitly programmed. Instead of following predefined rules, ML algorithms identify patterns and make predictions or decisions based on the data they are trained on.</p>
+            <p>Deep Learning (DL), a subfield of ML, utilizes artificial neural networks with multiple layers (hence "deep") to process complex data patterns. These networks are inspired by the structure and function of the human brain. Other crucial components include Natural Language Processing (NLP), which enables computers to understand, interpret, and generate human language; Computer Vision, allowing machines to "see" and interpret images and videos; and Robotics, integrating AI with physical machines to perform tasks in the real world. The synergy of these principles fuels the advancement of AI.</p>
+        </div>
+
+        <div class="article-section" id="key-benefits">
+            <h2>Key Benefits and Transformative Potential</h2>
+            <p>The integration of AI across industries offers profound benefits. Automation is a primary advantage, allowing repetitive and time-consuming tasks to be handled by machines, thereby freeing up human workers for more strategic and creative endeavors. This leads to increased efficiency, reduced operational costs, and improved accuracy.</p>
+            <p>AI also enhances decision-making by analyzing vast datasets to uncover insights and patterns that might be missed by human analysis. This data-driven approach leads to more informed strategies in areas like marketing, finance, and healthcare. Furthermore, AI can personalize experiences for users, from product recommendations to tailored educational content, fostering greater engagement and satisfaction. The potential for AI to solve complex global issues, such as climate change and disease research, is immense.</p>
+        </div>
+
+        <div class="card" id="tocCard">
+            <h3>Table of Contents</h3>
+            <div class="card-content">
+                <a href="#what-is-ai">What is Artificial Intelligence?</a>
+                <a href="#foundational-principles">Foundational Principles</a>
+                <a href="#key-benefits">Key Benefits</a>
+                <a href="#use-cases">Real-World Use Cases</a>
+                <a href="#how-it-works">How AI Learns</a>
+                <a href="#future-outlook">Future Outlook</a>
+            </div>
+        </div>
+
+        <div class="article-section" id="use-cases">
+            <h2>Real-World Use Cases of AI</h2>
+            <p>AI's application spans virtually every sector. In healthcare, AI assists in diagnosing diseases, personalizing treatment plans, and discovering new drugs. Financial institutions use AI for fraud detection, algorithmic trading, and customer service through chatbots.</p>
+            <p>The retail industry leverages AI for personalized recommendations, inventory management, and optimizing supply chains. In manufacturing, AI-powered robots enhance production lines, and predictive maintenance minimizes downtime. The automotive industry is rapidly adopting AI for autonomous driving systems, improving safety and efficiency. Even entertainment benefits, with AI generating music, art, and personalized content feeds.</p>
+            <img src="https://images.unsplash.com/photo-1677442135131-4d7c123aef1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4Njg1OTJ8MHwxfHNlYXJjaHw0OHx8QXJ0aWZpY2lhbCUyMEludGVsbGlnZW5jZXxlbnwwfDB8fHwxNzcwODgzNTM0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="AI in healthcare research" class="content-image">
+        </div>
+
+        <div class="article-section" id="how-it-works">
+            <h2>How AI Learns: A Simplified View</h2>
+            <p>The learning process in AI, particularly in Machine Learning, typically involves three stages: training, validation, and testing. During the training phase, an algorithm is fed a large dataset. It adjusts its internal parameters to identify patterns and relationships within this data.</p>
+            <p>For example, an AI model designed to recognize cats in images would be shown thousands of images labeled as "cat" and "not cat." It learns to associate specific features (like pointy ears, whiskers, and furry texture) with the "cat" label. After training, the model is validated on a separate dataset to tune its performance. Finally, it's tested on an entirely new, unseen dataset to evaluate its accuracy and generalization capabilities. This iterative process allows AI to refine its understanding and improve its predictive power.</p>
+            <pre><code>
+# Example: A very basic Python pseudo-code for a simple ML model
+class SimpleMLModel:
+    def __init__(self):
+        self.weights = {}
+        self.bias = 0
+
+    def train(self, data, labels, learning_rate=0.01, epochs=100):
+        for _ in range(epochs):
+            for x, y_true in zip(data, labels):
+                # Predict
+                y_pred = self.predict(x)
+
+                # Calculate error
+                error = y_true - y_pred
+
+                # Update weights (simplified gradient descent)
+                for feature in x:
+                    if feature not in self.weights:
+                        self.weights[feature] = 0
+                    self.weights[feature] += learning_rate * error * x[feature]
+                self.bias += learning_rate * error
+
+    def predict(self, x):
+        prediction = self.bias
+        for feature in x:
+            if feature in self.weights:
+                prediction += self.weights[feature] * x[feature]
+        return prediction
+
+# Sample usage (conceptual)
+# model = SimpleMLModel()
+# training_data = [{'feature1': 1, 'feature2': 0.5}, {'feature1': 2, 'feature2': 1}]
+# training_labels = [0, 1]
+# model.train(training_data, training_labels)
+            </code></pre>
+        </div>
+
+        <div class="card" id="keyTakeawaysCard">
+            <h3>Key Takeaways</h3>
+            <div class="card-content">
+                <ul>
+                    <li>AI simulates human intelligence in machines.</li>
+                    <li>Machine Learning and Deep Learning are core AI technologies.</li>
+                    <li>AI offers automation, enhanced decision-making, and personalization.</li>
+                    <li>Applications are diverse, spanning healthcare, finance, retail, and more.</li>
+                    <li>AI learns through data, iteratively improving its accuracy.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="article-section" id="future-outlook">
+            <h2>The Future Outlook of AI</h2>
+            <p>The trajectory of AI development points towards even more sophisticated and integrated systems. We can expect AI to become more autonomous, capable of handling increasingly complex tasks with minimal human intervention. Advancements in areas like explainable AI (XAI) will be crucial, making AI decisions more transparent and trustworthy.</p>
+            <p>The ethical implications of AI will continue to be a significant focus, with ongoing discussions about bias, privacy, and job displacement. Collaboration between humans and AI, often termed "augmented intelligence," will likely become the norm, where AI tools enhance human capabilities rather than replacing them entirely. The journey of AI is far from over, promising continued innovation and a profound impact on society.</p>
+            <img src="https://images.unsplash.com/photo-1674027444484-cf52149ea050?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4Njg1OTJ8MHwxfHNlYXJjaHw0OXx8QXJ0aWZpY2lhbCUyMEludGVsbGlnZW5jZXxlbnwwfDB8fHwxNzcwODgzNTM0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Futuristic AI cityscape" class="content-image">
+        </div>
+
+        <div class="card" id="quickTipsCard">
+            <h3>Quick Tips</h3>
+            <div class="card-content">
+                <ul>
+                    <li>Start with understanding basic ML concepts.</li>
+                    <li>Explore online courses and tutorials.</li>
+                    <li>Experiment with open-source AI tools.</li>
+                    <li>Stay updated on AI ethics and regulations.</li>
+                    <li>Focus on problem-solving applications.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" id="didYouKnowCard">
+            <h3>Did You Know?</h3>
+            <div class="card-content">
+                <p>The term "Artificial Intelligence" was coined by John McCarthy in 1956 at the Dartmouth Workshop, considered the birth of AI as a field.</p>
+            </div>
+        </div>
+
+        <blockquote>
+            <p>"The future belongs to those who believe in the beauty of their dreams." - Eleanor Roosevelt. AI is turning many of those beautiful dreams into reality, pushing the boundaries of what's possible.</p>
+        </blockquote>
+
+        <div id="likeButton">
+            <span id="heartIcon">🤍</span>
+            <span>Like This Article</span>
+        </div>
+
+        <section class="comments-section">
+            <h2>Leave a Comment</h2>
+            <div class="comment-form">
+                <form id="commentForm">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    <textarea id="comment" name="comment" placeholder="Your Comment" required></textarea>
+                    <button type="submit" class="submit-button">Post Comment</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <button id="backToTopBtn" title="Go to top">⬆️</button>
+
+    <script>
+        const progressBar = document.getElementById('progressBar');
+        const heartIcon = document.getElementById('heartIcon');
+        const likeButton = document.getElementById('likeButton');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        // Progress Bar Logic
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
+
+            // Back to Top Button Visibility
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopBtn.style.display = "flex";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        });
+
+        // Back to Top Button Click
+        backToTopBtn.addEventListener('click', () => {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        });
+
+        // Like Button Logic
+        let isLiked = false;
+        likeButton.addEventListener('click', () => {
+            isLiked = !isLiked;
+            if (isLiked) {
+                heartIcon.textContent = '❤️';
+                likeButton.classList.add('liked');
+            } else {
+                heartIcon.textContent = '🤍';
+                likeButton.classList.remove('liked');
+            }
+        });
+
+        // Smooth Scroll for Table of Contents (if needed, but handled by browser default)
+        // The anchor links `<a>` with href="#section-id" will automatically use smooth scroll if set on html.
+
+        // Copy Code Button Logic
+        document.querySelectorAll('pre').forEach(block => {
+            const copyButton = document.createElement('button');
+            copyButton.textContent = 'Copy';
+            copyButton.classList.add('copy-code-btn');
+            block.appendChild(copyButton);
+
+            copyButton.addEventListener('click', () => {
+                const code = block.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    copyButton.textContent = 'Failed';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
