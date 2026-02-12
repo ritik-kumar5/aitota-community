@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai Calling Agent aitota.com - Q&A</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #0f0f0f;
+            --card-background: rgba(255,255,255,0.04);
+            --card-border: rgba(255,255,255,0.08);
+            --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            --primary-color: #10b981;
+            --secondary-color: #0ea5e9;
+            --text-color: #f0f0f0;
+            --muted-text-color: #a0a0a0;
+            --button-surface: #1a1a1a;
+            --button-text-color: #f0f0f0;
+            --accent-glow: rgba(16, 185, 129, 0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 10px 20px;
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            color: var(--text-color);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .qa-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 32px;
+            padding: 24px;
+            width: 100%;
+            max-width: 700px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--card-border);
+        }
+
+        .question-header h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: var(--text-color);
+            flex-grow: 1;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .question-header h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed var(--card-border);
+        }
+
+        .author-profile img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 16px;
+            object-fit: cover;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 1.1em;
+            margin-bottom: 4px;
+        }
+
+        .author-bio {
+            color: var(--muted-text-color);
+            font-size: 0.9em;
+        }
+
+        .answer-body {
+            font-size: 1.05em;
+            color: var(--text-color);
+            margin-bottom: 16px;
+        }
+
+        .answer-body p {
+            margin-bottom: 1.2em;
+        }
+
+        .answer-body strong {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .answer-body em {
+            font-style: italic;
+            color: var(--text-color);
+        }
+
+        .answer-body blockquote {
+            margin: 1.5em 0;
+            padding-left: 1.2em;
+            border-left: 4px solid var(--primary-color);
+            font-style: italic;
+            color: var(--muted-text-color);
+            background-color: rgba(255,255,255,0.02);
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
+
+        .read-more-container {
+            margin-top: 16px;
+            text-align: right;
+        }
+
+        .read-more-btn, .read-less-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .read-more-btn:hover, .read-less-btn:hover {
+            color: #0da377; /* Darker primary */
+            transform: translateY(-2px);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--card-border);
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--button-surface);
+            color: var(--button-text-color);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn .material-icons {
+            font-size: 1.2em;
+        }
+
+        .share-btn-action {
+            margin-left: auto; /* Pushes share to the right */
+            margin-right: 8px;
+        }
+
+        .back-to-home-container {
+            text-align: center;
+            margin: 48px 0 32px;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-decoration: none;
+            background: linear-gradient(90deg, var(--primary-color), #059669); /* Darker green */
+            color: #ffffff;
+            box-shadow: 0 6px 30px rgba(16, 185, 129, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-to-home-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.7);
+        }
+
+        .back-to-home-btn .material-icons {
+            font-size: 1.4em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        /* Toast for copy to clipboard */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1em;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Ai Calling Agent aitota.com</h1>
+    </header>
+
+    <main>
+        <div class="qa-card">
+            <div class="question-header">
+                <h3>What exactly is aitota.com and how does its AI calling agent work?</h3>
+            </div>
+            <div class="author-profile">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Author Photo">
+                <div class="author-info">
+                    <div class="author-name">Aarav Singh</div>
+                    <div class="author-bio">AI Researcher & Solutions Architect, IIT Bombay</div>
+                </div>
+            </div>
+            <div class="answer-body" data-truncated="true">
+                <p>
+                    aitota.com is an emerging platform that leverages advanced Artificial Intelligence to power automated calling agents. Imagine having a virtual assistant that can initiate phone calls, engage in conversations, and perform specific tasks, all without human intervention. That's the core promise of aitota.com. It's designed to streamline a multitude of communication-centric processes for businesses, from customer outreach and appointment setting to lead qualification and post-call follow-ups.
+                </p>
+                <p>
+                    The magic behind aitota.com lies in its sophisticated AI engine. This isn't just a simple pre-recorded message player; it's a dynamic conversational agent. It utilizes Natural Language Processing (NLP) to understand what the person on the other end is saying, Natural Language Generation (NLG) to formulate intelligent and contextually relevant responses, and advanced speech recognition and synthesis to conduct fluid, human-like conversations. Think of it as a highly trained, incredibly patient, and always-available telemarketer or customer service representative, but powered by algorithms.
+                </p>
+                <p>
+                    How does it work in practice? A business integrates aitota.com into their workflow. They can define the scripts, the objectives of the calls (e.g., "confirm appointment," "offer discount," "gather feedback"), and the criteria for escalation to a human agent. The AI then takes over, dialing numbers from a provided list. When a call is answered, the agent initiates the conversation based on the pre-defined goals. It can handle common queries, answer FAQs, gather information, and even guide the caller through simple processes. If the conversation becomes complex, or if the caller expresses a desire to speak to a human, the AI can seamlessly transfer the call to a live agent, providing them with a summary of the interaction so far. This <span style="color: #10b981; font-weight: 600;">reduces the burden on human staff</span> and allows them to focus on more critical tasks.
+                </p>
+                <p>
+                    The system learns and improves over time through continuous training and analysis of call data. This means the more it's used, the better it becomes at understanding nuances, handling objections, and achieving its objectives. For businesses, this translates to increased efficiency, reduced operational costs, and a potentially <span style="color: #0ea5e9; font-weight: 600;">improved customer experience</span> through consistent and timely communication. It's a powerful tool for scaling outreach efforts without proportionally scaling up human resources.
+                </p>
+                <p>
+                    For instance, a small e-commerce business might use aitota.com to send automated order confirmation calls and then follow up a week later to ask for product feedback. A dental clinic could use it to send appointment reminders and allow patients to confirm or reschedule via voice. The applications are vast, touching industries from sales and marketing to healthcare and customer support, all aiming to make communication more intelligent and automated.
+                </p>
+            </div>
+            <div class="read-more-container">
+                <button class="read-more-btn">Read More</button>
+            </div>
+            <div class="action-bar">
+                <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+                <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+                <button class="btn"><span class="material-icons">content_copy</span></button>
+                <button class="btn"><span class="material-icons">comment</span> Comment</button>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="question-header">
+                <h3>Can aitota.com's AI agents handle complex customer service inquiries?</h3>
+            </div>
+            <div class="author-profile">
+                <img src="https://randomuser.me/api/portraits/women/77.jpg" alt="Author Photo">
+                <div class="author-info">
+                    <div class="author-name">Ananya Sharma</div>
+                    <div class="author-bio">Customer Experience Strategist, Ex-Amazon</div>
+                </div>
+            </div>
+            <div class="answer-body" data-truncated="true">
+                <p>
+                    This is a fantastic and very common question! When we talk about AI calling agents like those from aitota.com, the term "conversational AI" can sometimes conjure images of robots that can only recite scripts. However, the reality is far more nuanced, and the capabilities are rapidly evolving. For truly <strong>complex customer service inquiries</strong>, the answer is: <em>it depends on the complexity and the specific implementation</em>.
+                </p>
+                <p>
+                    The AI agents at aitota.com are typically designed with a tiered approach to handling inquiries. For a significant portion of common, repetitive, or information-retrieval tasks, they excel. Think about inquiries like: "What's my order status?", "What are your business hours?", "How do I reset my password?", or "Can I get a refund for this item?". These are structured questions with predictable answers or straightforward processes, and the AI can efficiently handle them. It can access databases, follow predefined decision trees, and provide immediate, accurate responses, which is a massive win for customer satisfaction and operational efficiency.
+                </p>
+                <p>
+                    However, for inquiries that require deep empathy, intricate problem-solving, understanding of subtle emotional cues, or access to highly sensitive or unscripted information, the limitations of current AI become apparent. If a customer is experiencing a unique technical glitch that requires creative troubleshooting, or if they are deeply upset and need a human to genuinely empathize and de-escalate the situation, the AI might struggle to provide the same level of nuanced support. In these scenarios, the AI's role shifts from being the primary resolver to being an intelligent first responder and a seamless handoff agent.
+                </p>
+                <blockquote>
+                    "The goal isn't to replace human connection, but to augment it, freeing up humans for the moments that truly matter."
+                </blockquote>
+                <p>
+                    aitota.com's strength often lies in its ability to intelligently triage these calls. The AI can gather initial information, understand the basic nature of the problem, and then route the caller to the most appropriate human agent, providing that agent with a concise summary of the situation. This <span style="color: #10b981; font-weight: 600;">reduces customer frustration</span> by eliminating the need to repeat themselves and ensures they reach a human who is equipped to handle their specific issue. So, while the AI might not solve every single complex problem on its own, it plays a crucial role in making the overall customer service process more efficient and effective.
+                </p>
+                <p>
+                    The ongoing advancements in AI, particularly in areas like sentiment analysis and advanced reasoning, mean that the boundary of what AI can handle is constantly being pushed. For many "complex" issues, the AI can indeed guide the user through a structured troubleshooting process, ask clarifying questions, and even offer potential solutions based on vast datasets of past issues and resolutions. It's about finding the right balance, where AI handles the predictable and repetitive, and humans step in for the uniquely human touch.
+                </p>
+            </div>
+            <div class="read-more-container">
+                <button class="read-more-btn">Read More</button>
+            </div>
+            <div class="action-bar">
+                <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+                <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+                <button class="btn"><span class="material-icons">content_copy</span></button>
+                <button class="btn"><span class="material-icons">comment</span> Comment</button>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="question-header">
+                <h3>What are the primary industries benefiting from aitota.com's AI calling solutions?</h3>
+            </div>
+            <div class="author-profile">
+                <img src="https://randomuser.me/api/portraits/men/15.jpg" alt="Author Photo">
+                <div class="author-info">
+                    <div class="author-name">Vikram Desai</div>
+                    <div class="author-bio">Business Growth Consultant, Founder at ScaleUp Solutions</div>
+                </div>
+            </div>
+            <div class="answer-body" data-truncated="true">
+                <p>
+                    The beauty of a versatile tool like aitota.com's AI calling agent is its applicability across a wide spectrum of industries. However, some sectors are finding particularly compelling use cases and realizing substantial benefits right out of the gate. These are typically industries that rely heavily on consistent, high-volume communication for customer engagement, sales, and operational efficiency.
+                </p>
+                <p>
+                    The <strong>financial services sector</strong> is a prime example. Banks, credit unions, and investment firms can leverage aitota.com for a multitude of tasks: sending out personalized loan offers, following up on overdue payments with gentle reminders, confirming account changes, or even conducting basic customer satisfaction surveys after a service interaction. The ability to automate these often-sensitive communications with a high degree of professionalism and compliance is invaluable. It ensures that critical messages are delivered consistently and affordably.
+                </p>
+                <p>
+                    Then there's the <strong>healthcare industry</strong>. Think about the sheer volume of appointment reminders, pre-procedure instructions, or post-visit follow-ups that need to be managed. aitota.com can automate these, significantly reducing no-show rates for clinics and hospitals. It can also be used to gather patient feedback, inform patients about health campaigns, or even conduct basic health checks for chronic patients, freeing up nurses and administrative staff for direct patient care. This <span style="color: #10b981; font-weight: 600;">enhances patient engagement</span> and improves overall healthcare delivery.
+                </p>
+                <p>
+                    The <strong>e-commerce and retail space</strong> also stands to gain immensely. Beyond automated order confirmations and shipping notifications, these businesses can use AI agents for proactive customer service, like offering assistance to online shoppers who have items in their cart for an extended period, or following up on product reviews. They can also be used for targeted marketing campaigns, like informing customers about new arrivals or special promotions based on their past purchase history. The goal here is to <span style="color: #0ea5e9; font-weight: 600;">boost sales and customer loyalty</span> through intelligent, timely outreach.
+                </p>
+                <p>
+                    Furthermore, industries like <strong>real estate</strong> (for property viewings and lead follow-ups), <strong>telecommunications</strong> (for service updates and plan inquiries), and even <strong>non-profits</strong> (for fundraising calls and volunteer coordination) are finding significant value. Essentially, any business that requires a robust, scalable, and cost-effective way to communicate with a large number of people individually via phone calls is a strong candidate to benefit from aitota.com's innovative AI calling solutions.
+                </p>
+            </div>
+            <div class="read-more-container">
+                <button class="read-more-btn">Read More</button>
+            </div>
+            <div class="action-bar">
+                <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+                <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+                <button class="btn"><span class="material-icons">content_copy</span></button>
+                <button class="btn"><span class="material-icons">comment</span> Comment</button>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="question-header">
+                <h3>How does aitota.com ensure data privacy and security for its AI calling operations?</h3>
+            </div>
+            <div class="author-profile">
+                <img src="https://randomuser.me/api/portraits/women/88.jpg" alt="Author Photo">
+                <div class="author-info">
+                    <div class="author-name">Priya Gupta</div>
+                    <div class="author-bio">Cybersecurity Analyst, Certified Ethical Hacker</div>
+                </div>
+            </div>
+            <div class="answer-body" data-truncated="true">
+                <p>
+                    Data privacy and security are paramount concerns for any AI-driven communication platform, and aitota.com is no exception. In today's digital landscape, where data breaches can have severe consequences, robust security measures are not just a feature but a fundamental requirement. aitota.com understands this and implements a multi-layered approach to safeguard the sensitive information handled by its AI calling agents.
+                </p>
+                <p>
+                    At its core, the platform adheres to stringent data protection regulations. Depending on the geographical location of its clients and their customers, this typically includes compliance with standards like GDPR (General Data Protection Regulation) for European Union data, CCPA (California Consumer Privacy Act) for Californian data, and other relevant local data privacy laws. This means that data is handled with transparency, consent is managed appropriately, and individuals have rights over their information. For any AI system, especially one interacting via voice, understanding and respecting these legal frameworks is the first line of defense.
+                </p>
+                <p>
+                    Technically, aitota.com employs advanced encryption protocols for data both in transit and at rest. When conversations are recorded for training or quality assurance purposes, they are encrypted. Any data stored on their servers is protected by industry-standard encryption algorithms, making it unreadable to unauthorized parties. Access to sensitive data is strictly controlled through role-based access controls and robust authentication mechanisms, ensuring that only authorized personnel can access specific information on a need-to-know basis. This <span style="color: #10b981; font-weight: 600;">minimizes the risk of internal misuse</span> or unauthorized access.
+                </p>
+                <blockquote>
+                    "Trust is built on a foundation of unwavering commitment to security and privacy."
+                </blockquote>
+                <p>
+                    Furthermore, the AI models themselves are designed with privacy in mind. Techniques like differential privacy and federated learning might be employed to train models without directly exposing raw personal data. Call data is often anonymized or pseudonymized before being used for AI training, stripping away personally identifiable information to protect individuals. The AI agent's interactions are also designed to be concise, only collecting the necessary information to fulfill its task, thereby <span style="color: #0ea5e9; font-weight: 600;">reducing the data footprint</span>.
+                </p>
+                <p>
+                    Regular security audits, vulnerability assessments, and penetration testing are likely part of aitota.com's operational protocol. This proactive approach helps identify and address potential security weaknesses before they can be exploited. Clients are also provided with tools and information to understand how their data is being managed and secured, fostering transparency and confidence in the platform's commitment to protecting their business and customer data.
+                </p>
+            </div>
+            <div class="read-more-container">
+                <button class="read-more-btn">Read More</button>
+            </div>
+            <div class="action-bar">
+                <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+                <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+                <button class="btn"><span class="material-icons">content_copy</span></button>
+                <button class="btn"><span class="material-icons">comment</span> Comment</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="back-to-home-container">
+        <a href="https://aitota-community.pages.dev/" class="back-to-home-btn" target="_blank">
+            <span class="material-icons">home</span> Back to Home
+        </a>
+    </div>
+
+    <div id="toast" class="toast">Link copied!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const readMoreButtons = document.querySelectorAll('.read-more-btn');
+            const readLessButtons = document.querySelectorAll('.read-less-btn');
+            const cards = document.querySelectorAll('.qa-card');
+
+            cards.forEach(card => {
+                const answerBody = card.querySelector('.answer-body');
+                const paragraphs = answerBody.querySelectorAll('p');
+                const readMoreContainer = card.querySelector('.read-more-container');
+                const readMoreBtn = readMoreContainer.querySelector('.read-more-btn');
+
+                if (paragraphs.length > 3) {
+                    // Hide paragraphs beyond the third one initially
+                    for (let i = 3; i < paragraphs.length; i++) {
+                        paragraphs[i].style.display = 'none';
+                    }
+                    answerBody.setAttribute('data-truncated', 'true');
+                    readMoreBtn.textContent = 'Read More';
+                    readMoreBtn.style.display = 'inline-block'; // Ensure it's visible if needed
+                } else {
+                    readMoreContainer.style.display = 'none'; // No need for Read More if content is short
+                }
+
+                readMoreBtn.addEventListener('click', function() {
+                    const isTruncated = answerBody.getAttribute('data-truncated') === 'true';
+                    if (isTruncated) {
+                        // Expand
+                        for (let i = 3; i < paragraphs.length; i++) {
+                            paragraphs[i].style.display = 'block';
+                        }
+                        answerBody.setAttribute('data-truncated', 'false');
+                        readMoreBtn.textContent = 'Read Less';
+                        readMoreBtn.classList.add('read-less-btn');
+                        readMoreBtn.classList.remove('read-more-btn');
+                    } else {
+                        // Collapse
+                        for (let i = 3; i < paragraphs.length; i++) {
+                            paragraphs[i].style.display = 'none';
+                        }
+                        answerBody.setAttribute('data-truncated', 'true');
+                        readMoreBtn.textContent = 'Read More';
+                        readMoreBtn.classList.add('read-more-btn');
+                        readMoreBtn.classList.remove('read-less-btn');
+                    }
+                });
+            });
+
+            // Share button logic
+            const shareButtons = document.querySelectorAll('.share-btn-action');
+            const toast = document.getElementById('toast');
+
+            shareButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = button.closest('.qa-card');
+                    const questionElement = card.querySelector('.question-header h3');
+                    const questionText = questionElement ? questionElement.textContent : document.title;
+                    const urlToShare = window.location.href;
+
+                    if (navigator.share) {
+                        navigator.share({
+                            title: document.title,
+                            text: `Check out this Q&A on aitota.com: "${questionText}"`,
+                            url: urlToShare
+                        }).then(() => {
+                            console.log('Thanks for sharing!');
+                        }).catch(err => {
+                            console.error('Error sharing:', err);
+                        });
+                    } else {
+                        // Fallback for browsers that don't support navigator.share
+                        navigator.clipboard.writeText(`${document.title} - "${questionText}" ${urlToShare}`).then(() => {
+                            toast.textContent = 'Link copied to clipboard!';
+                            toast.classList.add('show');
+                            setTimeout(() => {
+                                toast.classList.remove('show');
+                            }, 3000);
+                        }).catch(err => {
+                            console.error('Failed to copy link: ', err);
+                            toast.textContent = 'Failed to copy link!';
+                            toast.classList.add('show');
+                            setTimeout(() => {
+                                toast.classList.remove('show');
+                            }, 3000);
+                        });
+                    }
+                });
+            });
+
+            // Copy button logic (optional, can be integrated with share fallback)
+            const copyButtons = document.querySelectorAll('.action-bar .btn:has(.material-icons.content_copy)');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = button.closest('.qa-card');
+                    const questionElement = card.querySelector('.question-header h3');
+                    const questionText = questionElement ? questionElement.textContent : document.title;
+                    const urlToCopy = window.location.href;
+
+                    navigator.clipboard.writeText(`${document.title} - "${questionText}" ${urlToCopy}`).then(() => {
+                        toast.textContent = 'Link copied!';
+                        toast.classList.add('show');
+                        setTimeout(() => {
+                            toast.classList.remove('show');
+                        }, 3000);
+                    }).catch(err => {
+                        console.error('Failed to copy link: ', err);
+                        toast.textContent = 'Failed to copy!';
+                        toast.classList.add('show');
+                        setTimeout(() => {
+                            toast.classList.remove('show');
+                        }, 3000);
+                    });
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>
