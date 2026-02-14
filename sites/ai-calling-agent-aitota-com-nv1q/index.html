@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai Calling Agent aitota.com - FAQs</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #0f0f0f;
+            --card-background: rgba(255,255,255,0.04);
+            --card-border: rgba(255,255,255,0.08);
+            --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            --primary-color: #10b981;
+            --secondary-color: #0ea5e9;
+            --text-color: #f0f0f0;
+            --muted-text-color: #a0a0a0;
+            --button-surface: #1a1a1a;
+            --button-text-color: #f0f0f0;
+            --glow-color: rgba(16, 185, 129, 0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 15px 0;
+            width: 100%;
+            max-width: 800px;
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+            font-size: 2.2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .qa-card {
+            background: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+        }
+
+        h3 {
+            font-size: 1.6em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid var(--primary-color);
+            font-weight: 600;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .author-profile img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1em;
+            margin-bottom: 3px;
+        }
+
+        .author-bio {
+            color: var(--muted-text-color);
+            font-size: 0.9em;
+        }
+
+        .answer-body p {
+            margin-bottom: 1.2em;
+            color: var(--text-color);
+        }
+
+        .answer-body strong {
+            color: var(--text-color);
+        }
+
+        .answer-body em {
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        .answer-body .colored-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .answer-body blockquote {
+            margin: 25px 0;
+            padding: 15px 20px;
+            border-left: 4px solid var(--primary-color);
+            background: rgba(255, 255, 255, 0.02);
+            font-style: italic;
+            color: var(--muted-text-color);
+            quotes: "“" "”" "‘" "’";
+        }
+
+        .answer-body blockquote p {
+            margin: 0;
+        }
+
+        .read-more-container {
+            margin-top: 15px;
+        }
+
+        .read-more-btn {
+            background: transparent;
+            color: var(--primary-color);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: #12c98a;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--card-border);
+            gap: 15px;
+        }
+
+        .action-bar .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--button-surface);
+            color: var(--button-text-color);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .action-bar .btn .material-icons {
+            font-size: 1.2em;
+        }
+
+        .action-bar .btn:hover {
+            background: rgba(26, 26, 26, 0.8);
+            box-shadow: 0 0 15px var(--glow-color);
+            color: var(--primary-color);
+        }
+
+        .share-btn-action {
+            /* Specific styling for share button if needed */
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1em;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .back-to-home-container {
+            text-align: center;
+            margin: 48px 0 32px;
+            width: 100%;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(90deg, var(--primary-color), #12c98a);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .back-to-home-btn .material-icons {
+            font-size: 1.5em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .back-to-home-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                font-size: 1.8em;
+            }
+            .qa-card {
+                padding: 20px;
+            }
+            .action-bar {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .action-bar .btn {
+                flex-grow: 1; /* Allow buttons to grow and fill space */
+                min-width: 120px; /* Minimum width for better touch targets */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Ai Calling Agent aitota.com
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Aditya Verma</div>
+                <div class="author-bio">Senior AI Researcher, IIT Bombay</div>
+            </div>
+        </div>
+        <h3>What exactly is aitota.com and how does it function as an AI calling agent?</h3>
+        <div class="answer-body">
+            <p>
+                aitota.com represents a fascinating leap forward in how businesses interact with their customers, leveraging the power of artificial intelligence to automate and optimize outbound and inbound calling processes. At its core, it's a sophisticated platform designed to act as a virtual receptionist or sales representative, capable of engaging in natural-sounding conversations. Think of it as having a tireless, always-available team member who can handle routine calls, gather information, qualify leads, and even book appointments, all without human intervention.
+            </p>
+            <p>
+                The magic behind aitota.com lies in its advanced AI capabilities. It utilizes Natural Language Processing (NLP) and Natural Language Understanding (NLU) to comprehend what a person is saying, interpret their intent, and formulate contextually relevant responses. This isn't just about pre-programmed scripts; it's about dynamic dialogue. The AI can adapt to the flow of a conversation, handle unexpected questions, and maintain a coherent and helpful interaction. For businesses, this translates into <span class="colored-highlight">significant improvements in efficiency and scalability</span>. Imagine a scenario where a company needs to reach out to thousands of potential customers for a survey or a product launch. Manually, this would be a monumental task, requiring a large team and considerable time. With aitota.com, this can be executed swiftly and systematically.
+            </p>
+            <p>
+                The operational flow typically involves defining the call's objective – perhaps it's to schedule a demo, remind a customer about an upcoming payment, or conduct a customer satisfaction survey. You then configure the AI agent with specific parameters, such as the target audience, the key talking points, and the desired outcomes. The AI then initiates the calls. When a human answers, the AI engages in a conversation, using its understanding to guide the dialogue. It can detect sentiment, identify needs, and take appropriate actions, like transferring the call to a human agent for complex queries or directly scheduling a follow-up.
+            </p>
+            <p>
+                One of the most compelling aspects is its ability to provide a <span class="colored-highlight">personalized customer experience at scale</span>. Unlike generic robocalls, aitota.com is programmed to sound human, use a polite and professional tone, and even remember previous interactions if integrated with CRM systems. This makes the customer feel valued and understood, fostering stronger relationships. Furthermore, the platform generates detailed analytics and reports, offering insights into call outcomes, customer feedback, and agent performance, which are invaluable for refining business strategies. It's not just about making calls; it's about making smarter, more effective calls.
+            </p>
+            <p>
+                In essence, aitota.com is an intelligent system that bridges the gap between automated processes and genuine human interaction, offering a powerful tool for businesses aiming to enhance their communication strategies, reduce operational costs, and ultimately, drive better business results. It’s a testament to how AI is transforming the very fabric of customer engagement.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/women/7.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Priya Singh</div>
+                <div class="author-bio">Customer Success Manager, Bangalore</div>
+            </div>
+        </div>
+        <h3>How does aitota.com handle complex customer queries or situations that require human empathy?</h3>
+        <div class="answer-body">
+            <p>
+                This is a crucial question, and one that gets to the heart of how advanced AI like aitota.com is designed to complement, rather than replace, human interaction. While aitota.com is incredibly adept at handling a vast array of standard calls, it's built with intelligent escalation protocols for those nuanced situations that demand a human touch. The system is not designed to mimic empathy artificially, but rather to recognize when genuine human empathy and complex problem-solving are required, and to facilitate that connection seamlessly.
+            </p>
+            <p>
+                The AI agent is trained to identify keywords, sentiment shifts, and conversational patterns that signal a need for human intervention. For instance, if a customer expresses significant frustration, anger, or confusion, or if the query delves into highly specific, unique, or emotionally charged territory, the AI is programmed to detect this. It doesn't try to power through with a generic response; instead, it smoothly transitions the conversation. This often involves a polite interruption: "I understand this is a complex issue, and to ensure you get the best possible assistance, I'd like to connect you with one of our specialist human agents who can help you further."
+            </p>
+            <p>
+                This handover process is designed to be as frictionless as possible. The AI agent can summarize the conversation it has had with the customer, including the key points of their query and any information already gathered, and pass this context along to the human agent. This <span class="colored-highlight">prevents the customer from having to repeat themselves</span>, which is a common source of frustration when dealing with automated systems. The human agent then receives a concise brief, allowing them to immediately pick up where the AI left off and address the customer's needs with the appropriate level of understanding and empathy.
+            </p>
+            <blockquote>
+                "The goal is always to enhance the customer experience, not hinder it. When complexity or emotion is involved, a human connection is paramount."
+            </blockquote>
+            <p>
+                Furthermore, aitota.com can be configured to flag certain types of calls or specific customer segments for immediate human review or handling. For example, if the AI detects a customer expressing significant distress or a highly sensitive personal issue, it can be programmed to bypass standard automated handling and directly route the call to a supervisor or a specialized support team. This proactive approach ensures that vulnerable customers receive the attention and care they deserve.
+            </p>
+            <p>
+                The underlying principle is that AI excels at efficiency, consistency, and data processing, while humans excel at empathy, nuanced judgment, and complex problem-solving. aitota.com intelligently leverages both, creating a hybrid model that offers the best of both worlds: the scalability and availability of AI, combined with the invaluable human touch when it matters most. This <span class="colored-highlight">intelligent triage system</span> ensures that every customer interaction, regardless of complexity, is handled effectively and compassionately.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Arjun Kapoor</div>
+                <div class="author-bio">Product Manager, Delhi NCR</div>
+            </div>
+        </div>
+        <h3>What kind of businesses or industries would benefit the most from using aitota.com's AI calling agent?</h3>
+        <div class="answer-body">
+            <p>
+                The beauty of aitota.com's AI calling agent is its versatility. It's not confined to a single niche; rather, it offers substantial benefits across a broad spectrum of industries and business types. Essentially, any organization that relies on outbound or inbound calling for customer engagement, sales, support, or operational efficiency can find significant value. However, certain sectors stand to gain disproportionately.
+            </p>
+            <p>
+                Consider the **telecommunications and utility sectors**. These industries often deal with high volumes of customer interactions, from service inquiries and billing questions to appointment scheduling for installations or repairs. An AI agent can handle routine queries, update customer information, and notify customers about outages or maintenance, freeing up human agents for more complex issues. <span class="colored-highlight">Imagine a utility company proactively calling thousands of customers to inform them about a planned power outage</span> – an AI agent can do this efficiently and consistently.
+            </p>
+            <p>
+                The **financial services industry** is another prime candidate. Banks and insurance companies can use aitota.com for appointment setting for financial advisors, debt collection reminders, loan application follow-ups, and even basic customer support for frequently asked questions about accounts or policies. The AI's ability to maintain a professional and compliant tone is critical here, ensuring adherence to strict regulations.
+            </p>
+            <p>
+                In the **healthcare sector**, AI calling agents can be instrumental in appointment reminders for doctors' visits, patient follow-ups post-treatment, medication adherence checks, and surveys for patient satisfaction. This can dramatically reduce no-show rates and improve patient outcomes by ensuring continuous care and communication. The ability to handle calls in multiple languages can also be a significant advantage in diverse patient populations.
+            </p>
+            <blockquote>
+                "From lead generation to customer retention, the applications are as diverse as business needs themselves."
+            </blockquote>
+            <p>
+                The **real estate industry** can leverage aitota.com for lead qualification – reaching out to potential buyers or sellers, gathering basic information, and scheduling property viewings or agent consultations. This allows real estate agents to focus their efforts on high-intent leads rather than spending hours on initial outreach. Similarly, **e-commerce and retail businesses** can use it for order confirmations, shipping updates, post-purchase follow-ups, and even proactive customer service to address potential issues before they escalate.
+            </p>
+            <p>
+                Finally, consider **SaaS companies and subscription-based services**. They can use aitota.com for onboarding new users, checking in on customer satisfaction, gathering feedback for product development, and even for churn prevention by identifying at-risk customers and offering solutions. The <span class="colored-highlight">data analytics provided by the AI platform</span> can offer invaluable insights into customer behavior and satisfaction, driving product and service improvements. In essence, any business looking to automate repetitive calling tasks, improve customer engagement, and gain operational efficiencies will find aitota.com a powerful ally.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Anjali Rao</div>
+                <div class="author-bio">Data Scientist, Hyderabad</div>
+            </div>
+        </div>
+        <h3>What are the key metrics or performance indicators (KPIs) to track when using aitota.com?</h3>
+        <div class="answer-body">
+            <p>
+                When implementing an AI calling agent like aitota.com, it's crucial to move beyond just the number of calls made and dive into metrics that truly reflect the effectiveness and ROI of the system. These KPIs help you understand not only the operational efficiency but also the impact on customer satisfaction and business objectives. Tracking the right metrics allows for continuous optimization and ensures you're getting the most out of your AI investment.
+            </p>
+            <p>
+                First and foremost, **Call Completion Rate** is fundamental. This measures the percentage of calls successfully connected and engaged with a human recipient, as opposed to calls that went unanswered, were immediately rejected, or encountered a busy signal. A high completion rate indicates effective dialing strategies and good customer engagement. Closely related is the **Answer Rate**, which specifically looks at the percentage of calls where a live person actually answered.
+            </p>
+            <p>
+                Next, consider **Conversation Duration and Quality**. While longer calls might seem better, it's the *quality* of the conversation that matters. aitota.com often provides tools to analyze conversation transcripts or sentiment. Key metrics here include **Average Handling Time (AHT)** for AI-handled segments, which should ideally be efficient, and **Customer Satisfaction (CSAT) scores** derived from post-call surveys or sentiment analysis. For instance, if the AI successfully resolves a query in 2 minutes with a high CSAT, that's far more valuable than a 10-minute call where the customer is still unhappy.
+            </p>
+            <p>
+                For sales-oriented applications, **Lead Qualification Rate** and **Conversion Rate** are paramount. How many of the calls initiated by the AI resulted in a qualified lead? And out of those qualified leads, how many eventually converted into paying customers? These metrics directly tie the AI's performance to revenue generation. Similarly, for appointment setting, tracking the **Appointment Setting Rate** and the subsequent **Show-Up Rate** for those appointments is vital.
+            </p>
+            <blockquote>
+                "Data isn't just numbers; it's the roadmap to smarter, more effective customer engagement."
+            </blockquote>
+            <p>
+                **First Call Resolution (FCR)** is another critical indicator, especially for support or service calls. Did the AI agent successfully resolve the customer's issue on the first contact, or was a follow-up required? A high FCR signifies efficiency and effectiveness in problem-solving. You should also monitor **Escalation Rate** – the percentage of calls that needed to be transferred to a human agent. While some escalation is expected, a consistently high rate might suggest the AI's capabilities or scripting need refinement for certain query types.
+            </p>
+            <p>
+                Finally, **Cost Per Call** and **Return on Investment (ROI)** are overarching financial metrics. By comparing the cost of using aitota.com (platform fees, setup, integration) against the savings from reduced human agent hours, increased sales, or improved customer retention, you can quantify the tangible benefits. <span class="colored-highlight">Tracking these diverse KPIs provides a holistic view</span> of the AI calling agent's performance, enabling data-driven decisions for optimization and strategic alignment.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="back-to-home-container">
+        <a href="https://aitota-community.pages.dev/" class="back-to-home-btn" target="_blank">
+            <span class="material-icons">home</span> Back to Home
+        </a>
+    </div>
+
+    <div id="toast" class="toast">Link copied!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const readMoreButtons = document.querySelectorAll('.read-more-btn');
+            const cards = document.querySelectorAll('.qa-card');
+
+            readMoreButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const card = e.target.closest('.qa-card');
+                    const answerBody = card.querySelector('.answer-body');
+                    const paragraphs = answerBody.querySelectorAll('p');
+                    const initialParagraphsToShow = 3; // Number of paragraphs to show initially
+
+                    if (answerBody.dataset.expanded === 'true') {
+                        // Collapse
+                        for (let i = initialParagraphsToShow; i < paragraphs.length; i++) {
+                            paragraphs[i].style.display = 'none';
+                        }
+                        answerBody.style.maxHeight = null; // Reset height
+                        answerBody.dataset.expanded = 'false';
+                        e.target.textContent = 'Read More';
+                    } else {
+                        // Expand
+                        for (let i = 0; i < paragraphs.length; i++) {
+                            paragraphs[i].style.display = 'block'; // Ensure all are visible
+                        }
+                        // Calculate height to prevent overflow issues with the button
+                        const scrollHeight = answerBody.scrollHeight;
+                        answerBody.style.maxHeight = scrollHeight + 'px';
+                        answerBody.dataset.expanded = 'true';
+                        e.target.textContent = 'Read Less';
+                    }
+                });
+            });
+
+            // Initialize read more state
+            cards.forEach(card => {
+                const answerBody = card.querySelector('.answer-body');
+                const paragraphs = answerBody.querySelectorAll('p');
+                const initialParagraphsToShow = 3;
+
+                if (paragraphs.length > initialParagraphsToShow) {
+                    answerBody.dataset.expanded = 'false';
+                    for (let i = initialParagraphsToShow; i < paragraphs.length; i++) {
+                        paragraphs[i].style.display = 'none';
+                    }
+                } else {
+                    card.querySelector('.read-more-container').style.display = 'none'; // Hide if not needed
+                    answerBody.dataset.expanded = 'true'; // Mark as expanded if all content is visible
+                }
+            });
+
+            // Share button logic
+            const shareButtons = document.querySelectorAll('.share-btn-action');
+            const toast = document.getElementById('toast');
+
+            shareButtons.forEach(shareButton => {
+                shareButton.addEventListener('click', async () => {
+                    const card = shareButton.closest('.qa-card');
+                    const cardTitle = card.querySelector('h3').textContent;
+                    const cardUrl = window.location.href; // Use current page URL for simplicity
+
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: cardTitle,
+                                text: `Check out this Q&A on aitota.com: "${cardTitle}"`,
+                                url: cardUrl
+                            });
+                            console.log('Shared successfully!');
+                        } catch (error) {
+                            console.error('Error sharing:', error);
+                            showToast('Failed to share.');
+                        }
+                    } else {
+                        // Fallback for browsers that don't support Web Share API
+                        navigator.clipboard.writeText(`${cardTitle} - ${cardUrl}`)
+                            .then(() => {
+                                showToast('Link copied to clipboard!');
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy URL: ', err);
+                                showToast('Failed to copy link.');
+                            });
+                    }
+                });
+            });
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai Calling Agent aitota.com - FAQs</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #0f0f0f;
+            --card-background: rgba(255,255,255,0.04);
+            --card-border: rgba(255,255,255,0.08);
+            --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            --primary-color: #10b981;
+            --secondary-color: #0ea5e9;
+            --text-color: #f0f0f0;
+            --muted-text-color: #a0a0a0;
+            --button-surface: #1a1a1a;
+            --button-text-color: #f0f0f0;
+            --glow-color: rgba(16, 185, 129, 0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 15px 0;
+            width: 100%;
+            max-width: 800px;
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+            font-size: 2.2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .qa-card {
+            background: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+        }
+
+        h3 {
+            font-size: 1.6em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid var(--primary-color);
+            font-weight: 600;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .author-profile img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1em;
+            margin-bottom: 3px;
+        }
+
+        .author-bio {
+            color: var(--muted-text-color);
+            font-size: 0.9em;
+        }
+
+        .answer-body p {
+            margin-bottom: 1.2em;
+            color: var(--text-color);
+        }
+
+        .answer-body strong {
+            color: var(--text-color);
+        }
+
+        .answer-body em {
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        .answer-body .colored-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .answer-body blockquote {
+            margin: 25px 0;
+            padding: 15px 20px;
+            border-left: 4px solid var(--primary-color);
+            background: rgba(255, 255, 255, 0.02);
+            font-style: italic;
+            color: var(--muted-text-color);
+            quotes: "“" "”" "‘" "’";
+        }
+
+        .answer-body blockquote p {
+            margin: 0;
+        }
+
+        .read-more-container {
+            margin-top: 15px;
+        }
+
+        .read-more-btn {
+            background: transparent;
+            color: var(--primary-color);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: #12c98a;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--card-border);
+            gap: 15px;
+        }
+
+        .action-bar .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--button-surface);
+            color: var(--button-text-color);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 10px 18px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .action-bar .btn .material-icons {
+            font-size: 1.2em;
+        }
+
+        .action-bar .btn:hover {
+            background: rgba(26, 26, 26, 0.8);
+            box-shadow: 0 0 15px var(--glow-color);
+            color: var(--primary-color);
+        }
+
+        .share-btn-action {
+            /* Specific styling for share button if needed */
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1em;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .back-to-home-container {
+            text-align: center;
+            margin: 48px 0 32px;
+            width: 100%;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(90deg, var(--primary-color), #12c98a);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .back-to-home-btn .material-icons {
+            font-size: 1.5em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .back-to-home-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                font-size: 1.8em;
+            }
+            .qa-card {
+                padding: 20px;
+            }
+            .action-bar {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .action-bar .btn {
+                flex-grow: 1; /* Allow buttons to grow and fill space */
+                min-width: 120px; /* Minimum width for better touch targets */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Ai Calling Agent aitota.com
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Aditya Verma</div>
+                <div class="author-bio">Senior AI Researcher, IIT Bombay</div>
+            </div>
+        </div>
+        <h3>What exactly is aitota.com and how does it function as an AI calling agent?</h3>
+        <div class="answer-body">
+            <p>
+                aitota.com represents a fascinating leap forward in how businesses interact with their customers, leveraging the power of artificial intelligence to automate and optimize outbound and inbound calling processes. At its core, it's a sophisticated platform designed to act as a virtual receptionist or sales representative, capable of engaging in natural-sounding conversations. Think of it as having a tireless, always-available team member who can handle routine calls, gather information, qualify leads, and even book appointments, all without human intervention.
+            </p>
+            <p>
+                The magic behind aitota.com lies in its advanced AI capabilities. It utilizes Natural Language Processing (NLP) and Natural Language Understanding (NLU) to comprehend what a person is saying, interpret their intent, and formulate contextually relevant responses. This isn't just about pre-programmed scripts; it's about dynamic dialogue. The AI can adapt to the flow of a conversation, handle unexpected questions, and maintain a coherent and helpful interaction. For businesses, this translates into <span class="colored-highlight">significant improvements in efficiency and scalability</span>. Imagine a scenario where a company needs to reach out to thousands of potential customers for a survey or a product launch. Manually, this would be a monumental task, requiring a large team and considerable time. With aitota.com, this can be executed swiftly and systematically.
+            </p>
+            <p>
+                The operational flow typically involves defining the call's objective – perhaps it's to schedule a demo, remind a customer about an upcoming payment, or conduct a customer satisfaction survey. You then configure the AI agent with specific parameters, such as the target audience, the key talking points, and the desired outcomes. The AI then initiates the calls. When a human answers, the AI engages in a conversation, using its understanding to guide the dialogue. It can detect sentiment, identify needs, and take appropriate actions, like transferring the call to a human agent for complex queries or directly scheduling a follow-up.
+            </p>
+            <p>
+                One of the most compelling aspects is its ability to provide a <span class="colored-highlight">personalized customer experience at scale</span>. Unlike generic robocalls, aitota.com is programmed to sound human, use a polite and professional tone, and even remember previous interactions if integrated with CRM systems. This makes the customer feel valued and understood, fostering stronger relationships. Furthermore, the platform generates detailed analytics and reports, offering insights into call outcomes, customer feedback, and agent performance, which are invaluable for refining business strategies. It's not just about making calls; it's about making smarter, more effective calls.
+            </p>
+            <p>
+                In essence, aitota.com is an intelligent system that bridges the gap between automated processes and genuine human interaction, offering a powerful tool for businesses aiming to enhance their communication strategies, reduce operational costs, and ultimately, drive better business results. It’s a testament to how AI is transforming the very fabric of customer engagement.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/women/7.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Priya Singh</div>
+                <div class="author-bio">Customer Success Manager, Bangalore</div>
+            </div>
+        </div>
+        <h3>How does aitota.com handle complex customer queries or situations that require human empathy?</h3>
+        <div class="answer-body">
+            <p>
+                This is a crucial question, and one that gets to the heart of how advanced AI like aitota.com is designed to complement, rather than replace, human interaction. While aitota.com is incredibly adept at handling a vast array of standard calls, it's built with intelligent escalation protocols for those nuanced situations that demand a human touch. The system is not designed to mimic empathy artificially, but rather to recognize when genuine human empathy and complex problem-solving are required, and to facilitate that connection seamlessly.
+            </p>
+            <p>
+                The AI agent is trained to identify keywords, sentiment shifts, and conversational patterns that signal a need for human intervention. For instance, if a customer expresses significant frustration, anger, or confusion, or if the query delves into highly specific, unique, or emotionally charged territory, the AI is programmed to detect this. It doesn't try to power through with a generic response; instead, it smoothly transitions the conversation. This often involves a polite interruption: "I understand this is a complex issue, and to ensure you get the best possible assistance, I'd like to connect you with one of our specialist human agents who can help you further."
+            </p>
+            <p>
+                This handover process is designed to be as frictionless as possible. The AI agent can summarize the conversation it has had with the customer, including the key points of their query and any information already gathered, and pass this context along to the human agent. This <span class="colored-highlight">prevents the customer from having to repeat themselves</span>, which is a common source of frustration when dealing with automated systems. The human agent then receives a concise brief, allowing them to immediately pick up where the AI left off and address the customer's needs with the appropriate level of understanding and empathy.
+            </p>
+            <blockquote>
+                "The goal is always to enhance the customer experience, not hinder it. When complexity or emotion is involved, a human connection is paramount."
+            </blockquote>
+            <p>
+                Furthermore, aitota.com can be configured to flag certain types of calls or specific customer segments for immediate human review or handling. For example, if the AI detects a customer expressing significant distress or a highly sensitive personal issue, it can be programmed to bypass standard automated handling and directly route the call to a supervisor or a specialized support team. This proactive approach ensures that vulnerable customers receive the attention and care they deserve.
+            </p>
+            <p>
+                The underlying principle is that AI excels at efficiency, consistency, and data processing, while humans excel at empathy, nuanced judgment, and complex problem-solving. aitota.com intelligently leverages both, creating a hybrid model that offers the best of both worlds: the scalability and availability of AI, combined with the invaluable human touch when it matters most. This <span class="colored-highlight">intelligent triage system</span> ensures that every customer interaction, regardless of complexity, is handled effectively and compassionately.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Arjun Kapoor</div>
+                <div class="author-bio">Product Manager, Delhi NCR</div>
+            </div>
+        </div>
+        <h3>What kind of businesses or industries would benefit the most from using aitota.com's AI calling agent?</h3>
+        <div class="answer-body">
+            <p>
+                The beauty of aitota.com's AI calling agent is its versatility. It's not confined to a single niche; rather, it offers substantial benefits across a broad spectrum of industries and business types. Essentially, any organization that relies on outbound or inbound calling for customer engagement, sales, support, or operational efficiency can find significant value. However, certain sectors stand to gain disproportionately.
+            </p>
+            <p>
+                Consider the **telecommunications and utility sectors**. These industries often deal with high volumes of customer interactions, from service inquiries and billing questions to appointment scheduling for installations or repairs. An AI agent can handle routine queries, update customer information, and notify customers about outages or maintenance, freeing up human agents for more complex issues. <span class="colored-highlight">Imagine a utility company proactively calling thousands of customers to inform them about a planned power outage</span> – an AI agent can do this efficiently and consistently.
+            </p>
+            <p>
+                The **financial services industry** is another prime candidate. Banks and insurance companies can use aitota.com for appointment setting for financial advisors, debt collection reminders, loan application follow-ups, and even basic customer support for frequently asked questions about accounts or policies. The AI's ability to maintain a professional and compliant tone is critical here, ensuring adherence to strict regulations.
+            </p>
+            <p>
+                In the **healthcare sector**, AI calling agents can be instrumental in appointment reminders for doctors' visits, patient follow-ups post-treatment, medication adherence checks, and surveys for patient satisfaction. This can dramatically reduce no-show rates and improve patient outcomes by ensuring continuous care and communication. The ability to handle calls in multiple languages can also be a significant advantage in diverse patient populations.
+            </p>
+            <blockquote>
+                "From lead generation to customer retention, the applications are as diverse as business needs themselves."
+            </blockquote>
+            <p>
+                The **real estate industry** can leverage aitota.com for lead qualification – reaching out to potential buyers or sellers, gathering basic information, and scheduling property viewings or agent consultations. This allows real estate agents to focus their efforts on high-intent leads rather than spending hours on initial outreach. Similarly, **e-commerce and retail businesses** can use it for order confirmations, shipping updates, post-purchase follow-ups, and even proactive customer service to address potential issues before they escalate.
+            </p>
+            <p>
+                Finally, consider **SaaS companies and subscription-based services**. They can use aitota.com for onboarding new users, checking in on customer satisfaction, gathering feedback for product development, and even for churn prevention by identifying at-risk customers and offering solutions. The <span class="colored-highlight">data analytics provided by the AI platform</span> can offer invaluable insights into customer behavior and satisfaction, driving product and service improvements. In essence, any business looking to automate repetitive calling tasks, improve customer engagement, and gain operational efficiencies will find aitota.com a powerful ally.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qa-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="Author Photo">
+            <div class="author-info">
+                <div class="author-name">Anjali Rao</div>
+                <div class="author-bio">Data Scientist, Hyderabad</div>
+            </div>
+        </div>
+        <h3>What are the key metrics or performance indicators (KPIs) to track when using aitota.com?</h3>
+        <div class="answer-body">
+            <p>
+                When implementing an AI calling agent like aitota.com, it's crucial to move beyond just the number of calls made and dive into metrics that truly reflect the effectiveness and ROI of the system. These KPIs help you understand not only the operational efficiency but also the impact on customer satisfaction and business objectives. Tracking the right metrics allows for continuous optimization and ensures you're getting the most out of your AI investment.
+            </p>
+            <p>
+                First and foremost, **Call Completion Rate** is fundamental. This measures the percentage of calls successfully connected and engaged with a human recipient, as opposed to calls that went unanswered, were immediately rejected, or encountered a busy signal. A high completion rate indicates effective dialing strategies and good customer engagement. Closely related is the **Answer Rate**, which specifically looks at the percentage of calls where a live person actually answered.
+            </p>
+            <p>
+                Next, consider **Conversation Duration and Quality**. While longer calls might seem better, it's the *quality* of the conversation that matters. aitota.com often provides tools to analyze conversation transcripts or sentiment. Key metrics here include **Average Handling Time (AHT)** for AI-handled segments, which should ideally be efficient, and **Customer Satisfaction (CSAT) scores** derived from post-call surveys or sentiment analysis. For instance, if the AI successfully resolves a query in 2 minutes with a high CSAT, that's far more valuable than a 10-minute call where the customer is still unhappy.
+            </p>
+            <p>
+                For sales-oriented applications, **Lead Qualification Rate** and **Conversion Rate** are paramount. How many of the calls initiated by the AI resulted in a qualified lead? And out of those qualified leads, how many eventually converted into paying customers? These metrics directly tie the AI's performance to revenue generation. Similarly, for appointment setting, tracking the **Appointment Setting Rate** and the subsequent **Show-Up Rate** for those appointments is vital.
+            </p>
+            <blockquote>
+                "Data isn't just numbers; it's the roadmap to smarter, more effective customer engagement."
+            </blockquote>
+            <p>
+                **First Call Resolution (FCR)** is another critical indicator, especially for support or service calls. Did the AI agent successfully resolve the customer's issue on the first contact, or was a follow-up required? A high FCR signifies efficiency and effectiveness in problem-solving. You should also monitor **Escalation Rate** – the percentage of calls that needed to be transferred to a human agent. While some escalation is expected, a consistently high rate might suggest the AI's capabilities or scripting need refinement for certain query types.
+            </p>
+            <p>
+                Finally, **Cost Per Call** and **Return on Investment (ROI)** are overarching financial metrics. By comparing the cost of using aitota.com (platform fees, setup, integration) against the savings from reduced human agent hours, increased sales, or improved customer retention, you can quantify the tangible benefits. <span class="colored-highlight">Tracking these diverse KPIs provides a holistic view</span> of the AI calling agent's performance, enabling data-driven decisions for optimization and strategic alignment.
+            </p>
+        </div>
+        <div class="read-more-container">
+            <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons">share</span> Share</button>
+            <button class="btn"><span class="material-icons">content_copy</span></button>
+            <button class="btn"><span class="material-icons">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="back-to-home-container">
+        <a href="https://aitota-community.pages.dev/" class="back-to-home-btn" target="_blank">
+            <span class="material-icons">home</span> Back to Home
+        </a>
+    </div>
+
+    <div id="toast" class="toast">Link copied!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const readMoreButtons = document.querySelectorAll('.read-more-btn');
+            const cards = document.querySelectorAll('.qa-card');
+
+            readMoreButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const card = e.target.closest('.qa-card');
+                    const answerBody = card.querySelector('.answer-body');
+                    const paragraphs = answerBody.querySelectorAll('p');
+                    const initialParagraphsToShow = 3; // Number of paragraphs to show initially
+
+                    if (answerBody.dataset.expanded === 'true') {
+                        // Collapse
+                        for (let i = initialParagraphsToShow; i < paragraphs.length; i++) {
+                            paragraphs[i].style.display = 'none';
+                        }
+                        answerBody.style.maxHeight = null; // Reset height
+                        answerBody.dataset.expanded = 'false';
+                        e.target.textContent = 'Read More';
+                    } else {
+                        // Expand
+                        for (let i = 0; i < paragraphs.length; i++) {
+                            paragraphs[i].style.display = 'block'; // Ensure all are visible
+                        }
+                        // Calculate height to prevent overflow issues with the button
+                        const scrollHeight = answerBody.scrollHeight;
+                        answerBody.style.maxHeight = scrollHeight + 'px';
+                        answerBody.dataset.expanded = 'true';
+                        e.target.textContent = 'Read Less';
+                    }
+                });
+            });
+
+            // Initialize read more state
+            cards.forEach(card => {
+                const answerBody = card.querySelector('.answer-body');
+                const paragraphs = answerBody.querySelectorAll('p');
+                const initialParagraphsToShow = 3;
+
+                if (paragraphs.length > initialParagraphsToShow) {
+                    answerBody.dataset.expanded = 'false';
+                    for (let i = initialParagraphsToShow; i < paragraphs.length; i++) {
+                        paragraphs[i].style.display = 'none';
+                    }
+                } else {
+                    card.querySelector('.read-more-container').style.display = 'none'; // Hide if not needed
+                    answerBody.dataset.expanded = 'true'; // Mark as expanded if all content is visible
+                }
+            });
+
+            // Share button logic
+            const shareButtons = document.querySelectorAll('.share-btn-action');
+            const toast = document.getElementById('toast');
+
+            shareButtons.forEach(shareButton => {
+                shareButton.addEventListener('click', async () => {
+                    const card = shareButton.closest('.qa-card');
+                    const cardTitle = card.querySelector('h3').textContent;
+                    const cardUrl = window.location.href; // Use current page URL for simplicity
+
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: cardTitle,
+                                text: `Check out this Q&A on aitota.com: "${cardTitle}"`,
+                                url: cardUrl
+                            });
+                            console.log('Shared successfully!');
+                        } catch (error) {
+                            console.error('Error sharing:', error);
+                            showToast('Failed to share.');
+                        }
+                    } else {
+                        // Fallback for browsers that don't support Web Share API
+                        navigator.clipboard.writeText(`${cardTitle} - ${cardUrl}`)
+                            .then(() => {
+                                showToast('Link copied to clipboard!');
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy URL: ', err);
+                                showToast('Failed to copy link.');
+                            });
+                    }
+                });
+            });
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+
+</body>
+</html>
