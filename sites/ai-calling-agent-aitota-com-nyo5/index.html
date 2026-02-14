@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Calling Agent - Aitota.com Q&amp;A</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #0f0f0f;
+            --card-background: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --primary-color: #10b981;
+            --secondary-color: #0ea5e9;
+            --text-color: #f0f0f0;
+            --muted-text-color: #a0a0a0;
+            --button-surface: #1a1a1a;
+            --button-text-color: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 32px;
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px 24px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--text-color);
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+        }
+
+        .qna-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 32px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden; /* To contain the gradient overlay */
+            position: relative;
+        }
+
+        .qna-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .author-profile img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 12px;
+            object-fit: cover;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+
+        .author-bio {
+            color: var(--muted-text-color);
+            font-size: 0.9em;
+        }
+
+        h3 {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--text-color);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .answer-content p {
+            margin-bottom: 16px;
+            color: var(--text-color);
+            font-size: 1.05em;
+        }
+
+        .answer-content strong {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .answer-content em {
+            font-style: italic;
+            color: var(--text-color);
+        }
+
+        .answer-content blockquote {
+            margin: 20px 0;
+            padding: 16px 20px;
+            border-left: 4px solid var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+            font-style: italic;
+            color: var(--muted-text-color);
+            font-size: 1.05em;
+            position: relative;
+        }
+
+        .answer-content blockquote::before {
+            content: '"';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: var(--primary-color);
+            opacity: 0.7;
+        }
+
+        .read-more-container {
+            margin-top: 16px;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: #15d294;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .btn {
+            background-color: var(--button-surface);
+            color: var(--button-text-color);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn .material-icons {
+            margin-right: 8px;
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+
+        .btn:hover {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            box-shadow: 0 0 16px var(--primary-color), 0 4px 12px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+        }
+
+        .share-btn-action {
+            /* Specific styling for share button if needed */
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1em;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease-in-out;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .back-to-home-container {
+            text-align: center;
+            margin: 48px 0 32px;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-decoration: none;
+            color: #f0f0f0;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 6px 32px rgba(16, 185, 129, 0.4), 0 0 24px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-to-home-btn .material-icons {
+            margin-right: 8px;
+            font-size: 1.4em;
+            vertical-align: middle;
+        }
+
+        .back-to-home-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 40px rgba(16, 185, 129, 0.5), 0 0 32px rgba(14, 165, 233, 0.4);
+        }
+    </style>
+<style>
+                    *[contenteditable]:hover { outline: 1px dashed var(--primary, #bfc3c7); cursor: text; }
+                    *[contenteditable]:focus { outline: 2px solid var(--primary, #bfc3c7); border-radius: 4px; }
+                    .delete-btn-overlay {
+                        position: absolute;
+                        background: #bfc3c7;
+                        color: white;
+                        border-radius: 50%;
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        z-index: 10000;
+                        font-family: sans-serif;
+                        font-size: 14px;
+                        line-height: 1;
+                        pointer-events: auto;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                        transition: opacity 0.2s;
+                    }
+
+                </style></head>
+<body>
+
+    <div class="header">
+        <h1 contenteditable="true">AI Calling Agent Aitota.com: Insights &amp; Use Cases</h1>
+    </div>
+
+    <div class="qna-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/72.jpg" alt="Author Avatar">
+            <div class="author-info">
+                <div class="author-name" contenteditable="true">Vikram Singh</div>
+                <div class="author-bio" contenteditable="true">AI Researcher &amp; Developer, IIT Bombay</div>
+            </div>
+        </div>
+        <h3 contenteditable="true">What exactly is an AI calling agent like Aitota.com, and how does it function?</h3>
+        <div class="answer-content">
+            <p contenteditable="true">Imagine a digital assistant, but one that can pick up a phone, understand your voice, engage in a natural conversation, and even perform tasks like booking appointments or answering customer queries. That's the essence of an AI calling agent like Aitota.com. It's not just a glorified chatbot; it's a sophisticated system leveraging cutting-edge technologies to mimic human conversational abilities over the phone.</p>
+            <p contenteditable="true">At its core, an AI calling agent relies on several key components. First, there's the <strong contenteditable="true">Natural Language Processing (NLP)</strong> engine, which is responsible for understanding what the person on the other end is saying. This involves not only transcribing speech into text (Speech-to-Text or STT) but also comprehending the intent, sentiment, and context of the conversation. Think of it as the AI's ears and brain, deciphering the nuances of human speech, including slang, accents, and even background noise.</p>
+            <p contenteditable="true">Next, comes the <strong contenteditable="true">Natural Language Generation (NLG)</strong> part, which is how the AI formulates its responses. It takes the understood intent and crafts a coherent, contextually relevant, and human-sounding reply. This isn't just pre-recorded phrases; it's dynamically generated text that adapts to the flow of the conversation. This NLG component is crucial for making the interaction feel natural and not robotic. The AI needs to sound like it's genuinely listening and responding thoughtfully.</p>
+            <p contenteditable="true" style="display: none;">Then there's the <strong contenteditable="true">dialogue management system</strong>. This is the conductor of the orchestra, orchestrating the entire conversation. It keeps track of the conversation's history, manages turns, decides when to ask clarifying questions, and guides the dialogue towards a predefined goal, whether it's completing a sale, resolving a support ticket, or scheduling a meeting. This system ensures the conversation stays on track and achieves its objective efficiently.</p>
+            <p contenteditable="true" style="display: none;">Finally, for outbound calls or when the AI needs to speak, there's the <strong contenteditable="true">Text-to-Speech (TTS)</strong> engine. This converts the AI's generated text responses into natural-sounding audio. Modern TTS engines can mimic various voices, tones, and even emotions, making the AI sound more personable and less like a machine. Aitota.com likely integrates these technologies, often powered by advanced machine learning models trained on vast datasets of human conversations, to provide a seamless and effective calling experience that can handle a high volume of interactions with consistency and scalability.</p>
+            <div class="read-more-container" style="display: block;">
+                <button class="read-more-btn">Read More</button>
+            </div>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons" contenteditable="true">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons" contenteditable="true">share</span> Share</button>
+            <button class="btn"><span class="material-icons" contenteditable="true">content_copy</span> Copy Link</button>
+            <button class="btn"><span class="material-icons" contenteditable="true">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qna-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Author Avatar">
+            <div class="author-info">
+                <div class="author-name" contenteditable="true">Priya Desai</div>
+                <div class="author-bio" contenteditable="true">Customer Experience Strategist, Bangalore</div>
+            </div>
+        </div>
+        <h3 contenteditable="true">In what practical business scenarios can an AI calling agent like Aitota.com provide significant value?</h3>
+        <div class="answer-content">
+            <p contenteditable="true">The practical applications for AI calling agents are surprisingly vast, touching almost every customer-facing aspect of a business. Imagine a scenario where you're running a retail business, and you have a surge of inquiries about product availability, store hours, or return policies. Instead of overwhelming your human agents, Aitota.com can handle these repetitive, high-volume calls, ensuring customers get instant, accurate answers 24/7. This frees up your human team to focus on more complex or sensitive customer issues that require a personal touch.</p>
+            <p contenteditable="true">For appointment scheduling, this is a game-changer. Think of dentists, salons, or even B2B service providers. An AI agent can call patients/clients to remind them of upcoming appointments, confirm their attendance, or even reschedule if needed. This drastically reduces no-shows and optimizes the schedule, leading to increased revenue and better resource utilization. The AI can also handle initial screening questions, like asking about symptoms before a doctor's appointment or preferred services before a salon booking.</p>
+            <p contenteditable="true">Beyond customer service, AI calling agents are powerful tools for sales and marketing. They can be used for outbound campaigns, like lead qualification. An AI can make the initial call to a prospect, ask a series of qualifying questions to gauge interest and budget, and then only pass on genuinely warm leads to the sales team. This is a massive efficiency boost, ensuring sales reps spend their time talking to people who are most likely to convert, rather than cold-calling random numbers.</p>
+            <p contenteditable="true" style="display: none;">Consider the realm of order status updates and delivery notifications. Instead of sending generic SMS messages, an AI can call customers to provide personalized updates on their order, confirm delivery details, or even collect feedback post-delivery. This proactive communication can significantly enhance customer satisfaction and reduce inquiries about order tracking. It adds a layer of personal touch that automated text messages often lack.</p>
+            <p contenteditable="true" style="display: none;">Furthermore, in sectors like finance and insurance, AI agents can assist with policy renewals, claims processing initiation, or even debt collection reminders. They can guide customers through initial steps, collect necessary information, and ensure compliance with regulations, all while maintaining a professional and empathetic tone. The ability to scale these interactions without a proportional increase in human staff makes Aitota.com a compelling solution for businesses looking to optimize operations, improve customer engagement, and drive growth in a cost-effective manner.</p>
+            <div class="read-more-container" style="display: block;">
+                <button class="read-more-btn">Read More</button>
+            </div>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons" contenteditable="true">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons" contenteditable="true">share</span> Share</button>
+            <button class="btn"><span class="material-icons" contenteditable="true">content_copy</span> Copy Link</button>
+            <button class="btn"><span class="material-icons" contenteditable="true">comment</span> Comment</button>
+        </div>
+    </div>
+
+    <div class="qna-card">
+        <div class="author-profile">
+            <img src="https://randomuser.me/api/portraits/men/15.jpg" alt="Author Avatar">
+            <div class="author-info">
+                <div class="author-name" contenteditable="true">Arjun Mehta</div>
+                <div class="author-bio" contenteditable="true">Startup Founder &amp; Product Innovator, Mumbai</div>
+            </div>
+        </div>
+        <h3 contenteditable="true">What are the ethical considerations and potential challenges when deploying AI calling agents like Aitota.com?</h3>
+        <div class="answer-content">
+            <p contenteditable="true">Deploying AI calling agents, while offering immense benefits, also ushers in a new set of ethical considerations and potential challenges that businesses must navigate with care. One of the most prominent concerns is <strong contenteditable="true">transparency and disclosure</strong>. Customers have a right to know if they are speaking with a human or an AI. Failing to disclose this can lead to deception and erode trust. Aitota.com, or any such service, should ideally ensure that its AI agents clearly identify themselves early in the conversation.</p>
+            <p contenteditable="true">Another significant ethical point revolves around <strong contenteditable="true">data privacy and security</strong>. These AI agents process and potentially store vast amounts of sensitive customer information. Ensuring robust data protection measures, compliance with regulations like GDPR or India's upcoming data protection laws, and secure handling of call recordings are paramount. A breach could have severe legal and reputational consequences. Businesses must be vigilant about how the AI collects, uses, and stores personal data.</p>
+            <p contenteditable="true">There's also the issue of <strong contenteditable="true">bias in AI</strong>. If the AI is trained on biased data, it can perpetuate and even amplify those biases in its interactions, leading to unfair or discriminatory treatment of certain customer segments. For example, an AI might be less effective at understanding certain accents or might offer different service levels based on perceived demographics. Continuous monitoring, diverse training data, and rigorous testing are crucial to mitigate these biases.</p>
+            <p contenteditable="true" style="display: none;">Furthermore, the <strong contenteditable="true">"human touch" deficit</strong> is a challenge. While AI can handle many tasks efficiently, it often lacks the empathy, emotional intelligence, and nuanced understanding that a human agent can provide, especially in sensitive situations like handling complaints, dealing with distressed customers, or navigating complex emotional landscapes. Over-reliance on AI without a clear escalation path to human agents can lead to customer frustration and dissatisfaction.</p>
+            <p contenteditable="true" style="display: none;">Finally, there's the broader societal impact concerning <strong contenteditable="true">job displacement</strong>. As AI calling agents become more capable, they may automate roles previously held by human call center agents. Businesses need to consider their responsibility towards their workforce, perhaps by retraining employees for higher-value roles that complement AI capabilities, rather than simply replacing them. Aitota.com and similar platforms should be deployed thoughtfully, with a clear strategy that balances technological advancement with ethical responsibility and human well-being.</p>
+            <div class="read-more-container" style="display: block;">
+                <button class="read-more-btn">Read More</button>
+            </div>
+        </div>
+        <div class="action-bar">
+            <button class="btn"><span class="material-icons" contenteditable="true">thumb_up</span> Upvote</button>
+            <button class="btn share-btn-action"><span class="material-icons" contenteditable="true">share</span> Share</button>
+            <button class="btn"><span class="material-icons" contenteditable="true">content_copy</span> Copy Link</button>
+            <button class="btn"><span class="material-icons" contenteditable="true">comment</span> Comment</button>
+        </div>
+    </div>
+
+    
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const qaCards = document.querySelectorAll('.qna-card');
+        const readMoreButtons = document.querySelectorAll('.read-more-btn');
+        const shareButtons = document.querySelectorAll('.share-btn-action');
+        const toastElement = document.getElementById('toast');
+
+        // "Read More" / "Read Less" functionality
+        readMoreButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cardContent = this.closest('.answer-content');
+                const readMoreContainer = this.closest('.read-more-container');
+                const paragraphs = cardContent.querySelectorAll('p');
+
+                if (this.textContent === 'Read More') {
+                    paragraphs.forEach((p, index) => {
+                        if (index >= 3) { // Assuming first 3 paragraphs are always visible
+                            p.style.display = 'block';
+                        }
+                    });
+                    this.textContent = 'Read Less';
+                    readMoreContainer.style.display = 'none'; // Hide 'Read More' after clicking
+                } else {
+                    paragraphs.forEach((p, index) => {
+                        if (index >= 3) {
+                            p.style.display = 'none';
+                        }
+                    });
+                    this.textContent = 'Read More';
+                    readMoreContainer.style.display = 'block'; // Show 'Read More' again
+                }
+            });
+        });
+
+        // Initial truncation and hiding of "Read More" containers if needed
+        qaCards.forEach(card => {
+            const content = card.querySelector('.answer-content');
+            const paragraphs = content.querySelectorAll('p');
+            const readMoreContainer = card.querySelector('.read-more-container');
+
+            if (paragraphs.length > 3) {
+                for (let i = 3; i < paragraphs.length; i++) {
+                    paragraphs[i].style.display = 'none';
+                }
+                if (readMoreContainer) {
+                    readMoreContainer.style.display = 'block';
+                }
+            } else {
+                 if (readMoreContainer) {
+                    readMoreContainer.style.display = 'none';
+                }
+            }
+        });
+
+
+        // "Share" button functionality
+        shareButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const currentUrl = window.location.href;
+                const cardTitle = button.closest('.qna-card').querySelector('h3').textContent;
+                const shareData = {
+                    title: `Aitota.com Q&A: ${cardTitle}`,
+                    text: `Check out this insightful Q&A about AI calling agents on Aitota.com!`,
+                    url: currentUrl,
+                };
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                        console.log('Shared successfully');
+                    } catch (error) {
+                        console.error('Error sharing:', error);
+                        showToast('Failed to share. Please try again.');
+                    }
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    try {
+                        await navigator.clipboard.writeText(currentUrl);
+                        showToast('Link copied to clipboard!');
+                    } catch (err) {
+                        console.error('Failed to copy URL: ', err);
+                        showToast('Failed to copy link.');
+                    }
+                }
+            });
+        });
+
+        function showToast(message) {
+            toastElement.textContent = message;
+            toastElement.classList.add('show');
+            setTimeout(() => {
+                toastElement.classList.remove('show');
+            }, 3000); // Toast disappears after 3 seconds
+        }
+
+        // Copy Link functionality (for the dedicated copy button)
+        const copyLinkButtons = document.querySelectorAll('.action-bar .btn:not(.share-btn-action)');
+        copyLinkButtons.forEach(button => {
+            if (button.querySelector('.material-icons').textContent === 'content_copy') {
+                button.addEventListener('click', async () => {
+                    const currentUrl = window.location.href;
+                    try {
+                        await navigator.clipboard.writeText(currentUrl);
+                        showToast('Link copied to clipboard!');
+                    } catch (err) {
+                        console.error('Failed to copy URL: ', err);
+                        showToast('Failed to copy link.');
+                    }
+                });
+            }
+        });
+
+    </script>
+
+
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Calling Agent - Aitota.com Q&amp;A</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #0f0f0f;
+            --card-background: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --primary-color: #10b981;
+            --secondary-color: #0ea5e9;
+            --text-color: #f0f0f0;
+            --muted-text-color: #a0a0a0;
+            --button-surface: #1a1a1a;
+            --button-text-color: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 32px;
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px 24px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--text-color);
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+        }
+
+        .qna-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 32px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden; /* To contain the gradient overlay */
+            position: relative;
+        }
+
+        .qna-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .author-profile img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 12px;
+            object-fit: cover;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+
+        .author-bio {
+            color: var(--muted-text-color);
+            font-size: 0.9em;
+        }
+
+        h3 {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--text-color);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .answer-content p {
+            margin-bottom: 16px;
+            color: var(--text-color);
+            font-size: 1.05em;
+        }
+
+        .answer-content strong {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .answer-content em {
+            font-style: italic;
+            color: var(--text-color);
+        }
+
+        .answer-content blockquote {
+            margin: 20px 0;
+            padding: 16px 20px;
+            border-left: 4px solid var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+            font-style: italic;
+            color: var(--muted-text-color);
+            font-size: 1.05em;
+            position: relative;
+        }
+
+        .answer-content blockquote::before {
+            content: '"';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: var(--primary-color);
+            opacity: 0.7;
+        }
+
+        .read-more-container {
+            margin-top: 16px;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: #15d294;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .btn {
+            background-color: var(--button-surface);
+            color: var(--button-text-color);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn .material-icons {
+            margin-right: 8px;
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+
+        .btn:hover {
+            background-color: #2a2a2a;
+            color: #ffffff;
+            box-shadow: 0 0 16px var(--primary-color), 0 4px 12px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+        }
+
+        .share-btn-action {
+            /* Specific styling for share button if needed */
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1em;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease-in-out;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .back-to-home-container {
+            text-align: center;
+            margin: 48px 0 32px;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-decoration: none;
+            color: #f0f0f0;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 6px 32px rgba(16, 185, 129, 0.4), 0 0 24px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-to-home-btn .material-icons {
+            margin-right: 8px;
+            font-size: 1.4em;
+            vertical-align: middle;
+        }
+
+        .back-to-home-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 40px rgba(16, 185, 129, 0.5), 0 0 32px rgba(14, 165, 233, 0.4);
+        }
+    </style>
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <div class="back-to-home-container">
+        <a href="https://aitota-community.pages.dev/" class="back-to-home-btn" target="_blank" rel="noopener noreferrer">
+            <span class="material-icons">home</span> Back to Home
+        </a>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const qaCards = document.querySelectorAll('.qna-card');
+        const readMoreButtons = document.querySelectorAll('.read-more-btn');
+        const shareButtons = document.querySelectorAll('.share-btn-action');
+        const toastElement = document.getElementById('toast');
+
+        // "Read More" / "Read Less" functionality
+        readMoreButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cardContent = this.closest('.answer-content');
+                const readMoreContainer = this.closest('.read-more-container');
+                const paragraphs = cardContent.querySelectorAll('p');
+
+                if (this.textContent === 'Read More') {
+                    paragraphs.forEach((p, index) => {
+                        if (index >= 3) { // Assuming first 3 paragraphs are always visible
+                            p.style.display = 'block';
+                        }
+                    });
+                    this.textContent = 'Read Less';
+                    readMoreContainer.style.display = 'none'; // Hide 'Read More' after clicking
+                } else {
+                    paragraphs.forEach((p, index) => {
+                        if (index >= 3) {
+                            p.style.display = 'none';
+                        }
+                    });
+                    this.textContent = 'Read More';
+                    readMoreContainer.style.display = 'block'; // Show 'Read More' again
+                }
+            });
+        });
+
+        // Initial truncation and hiding of "Read More" containers if needed
+        qaCards.forEach(card => {
+            const content = card.querySelector('.answer-content');
+            const paragraphs = content.querySelectorAll('p');
+            const readMoreContainer = card.querySelector('.read-more-container');
+
+            if (paragraphs.length > 3) {
+                for (let i = 3; i < paragraphs.length; i++) {
+                    paragraphs[i].style.display = 'none';
+                }
+                if (readMoreContainer) {
+                    readMoreContainer.style.display = 'block';
+                }
+            } else {
+                 if (readMoreContainer) {
+                    readMoreContainer.style.display = 'none';
+                }
+            }
+        });
+
+
+        // "Share" button functionality
+        shareButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const currentUrl = window.location.href;
+                const cardTitle = button.closest('.qna-card').querySelector('h3').textContent;
+                const shareData = {
+                    title: `Aitota.com Q&A: ${cardTitle}`,
+                    text: `Check out this insightful Q&A about AI calling agents on Aitota.com!`,
+                    url: currentUrl,
+                };
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                        console.log('Shared successfully');
+                    } catch (error) {
+                        console.error('Error sharing:', error);
+                        showToast('Failed to share. Please try again.');
+                    }
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    try {
+                        await navigator.clipboard.writeText(currentUrl);
+                        showToast('Link copied to clipboard!');
+                    } catch (err) {
+                        console.error('Failed to copy URL: ', err);
+                        showToast('Failed to copy link.');
+                    }
+                }
+            });
+        });
+
+        function showToast(message) {
+            toastElement.textContent = message;
+            toastElement.classList.add('show');
+            setTimeout(() => {
+                toastElement.classList.remove('show');
+            }, 3000); // Toast disappears after 3 seconds
+        }
+
+        // Copy Link functionality (for the dedicated copy button)
+        const copyLinkButtons = document.querySelectorAll('.action-bar .btn:not(.share-btn-action)');
+        copyLinkButtons.forEach(button => {
+            if (button.querySelector('.material-icons').textContent === 'content_copy') {
+                button.addEventListener('click', async () => {
+                    const currentUrl = window.location.href;
+                    try {
+                        await navigator.clipboard.writeText(currentUrl);
+                        showToast('Link copied to clipboard!');
+                    } catch (err) {
+                        console.error('Failed to copy URL: ', err);
+                        showToast('Failed to copy link.');
+                    }
+                });
+            }
+        });
+
+    </script>
+
+</body></html>
