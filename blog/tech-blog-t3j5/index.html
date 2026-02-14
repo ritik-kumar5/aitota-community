@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evolution of AI in Content Creation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --background: #0a0a0f;
+            --text-color: #e0e0e0;
+            --subtle-text: #a0a0a0;
+            --card-background: #1a1a2e;
+            --border-color: #333;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--background);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+        }
+
+        .blog-wrapper {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background-color: var(--primary);
+            z-index: 1000;
+            transition: width 0.3s ease-out;
+        }
+
+        .article-header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .article-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: #fff;
+        }
+
+        .article-header .subtitle {
+            font-size: 1.2rem;
+            color: var(--subtle-text);
+            margin-bottom: 2rem;
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .author-info {
+            text-align: left;
+        }
+
+        .author-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .author-bio {
+            font-size: 0.9rem;
+            color: var(--subtle-text);
+        }
+
+        .reading-time {
+            font-size: 0.9rem;
+            color: var(--subtle-text);
+        }
+
+        .toc-card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .toc-card h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .toc-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-card li {
+            margin-bottom: 10px;
+        }
+
+        .toc-card a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        .toc-card a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .main-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .main-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .main-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .main-content ul,
+        .main-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 25px;
+        }
+
+        .main-content li {
+            margin-bottom: 0.8rem;
+        }
+
+        .main-content pre {
+            background-color: #111;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .main-content code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .main-content pre code {
+            display: block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .section-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        blockquote {
+            border-left: 5px solid var(--primary);
+            padding: 15px 20px;
+            margin: 2rem 0;
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            font-style: italic;
+            font-size: 1.1rem;
+            position: relative;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+
+        .card.accent-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 8px 0 0 8px;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .card ul {
+            list-style: disc;
+            padding-left: 25px;
+        }
+
+        .card li {
+            margin-bottom: 0.8rem;
+        }
+
+        .card-quick-tips h3,
+        .card-key-takeaways h3,
+        .card-did-you-know h3 {
+            color: #fff;
+        }
+
+        .card-important {
+            border-left: 5px solid #f87171; /* Red for important */
+            background-color: rgba(248, 113, 113, 0.1);
+        }
+
+        .card-important h3 {
+            color: #f87171;
+        }
+
+        .like-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            margin-right: 15px;
+        }
+
+        .like-button:hover {
+            background-color: var(--secondary);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(139, 92, 255, 0.5);
+        }
+
+        .like-button .heart-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .like-button.liked .heart-icon {
+            transform: scale(1.2);
+        }
+
+        .comments-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .comments-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            text-align: center;
+            border-bottom: none;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .comment-form input,
+        .comment-form textarea {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #111;
+            color: var(--text-color);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .comment-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            padding: 12px 25px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .submit-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .back-to-home-section {
+            margin: 48px 0 32px;
+            text-align: center;
+        }
+
+        .back-to-home-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5);
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-to-home-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .back-to-home-button .home-icon {
+            margin-right: 8px;
+            vertical-align: middle;
+            display: inline-block;
+            font-size: 1.3rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            border: none;
+            font-size: 1.5rem;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-5px);
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            .blog-wrapper {
+                padding: 2rem 0.5rem;
+            }
+
+            .article-header {
+                padding: 2.5rem 0 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .article-header h1 {
+                font-size: 2rem;
+            }
+
+            .article-header .subtitle {
+                font-size: 1rem;
+            }
+
+            .author-profile {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .author-info {
+                text-align: center;
+            }
+
+            .main-content h2 {
+                font-size: 1.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .main-content h3 {
+                font-size: 1.3rem;
+                margin-top: 2rem;
+            }
+
+            .main-content p {
+                margin-bottom: 1rem;
+            }
+
+            .toc-card, .card {
+                padding: 15px;
+                margin-bottom: 1.5rem;
+            }
+
+            .card h3 {
+                font-size: 1.1rem;
+            }
+
+            .comments-section {
+                margin-top: 2rem;
+            }
+
+            .comments-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .comment-form {
+                padding: 20px;
+            }
+
+            .back-to-home-section {
+                margin: 32px 0 20px;
+            }
+
+            .back-to-home-button {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .back-to-top {
+                width: 45px;
+                height: 45px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="blog-wrapper">
+        <article class="article-header">
+            <h1>The Algorithmic Muse: AI's Transformative Role in Content Creation</h1>
+            <p class="subtitle">Exploring how artificial intelligence is reshaping the landscape of writing, design, and creative expression.</p>
+            <div class="author-profile">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Author Avatar" class="author-avatar">
+                <div class="author-info">
+                    <div class="author-name">Ananya Sharma</div>
+                    <div class="author-bio">AI Ethicist & Tech Journalist</div>
+                </div>
+                <div class="reading-time">5 min read</div>
+            </div>
+        </article>
+
+        <div class="toc-card">
+            <h3>Table of Contents</h3>
+            <ul>
+                <li><a href="#introduction">Introduction: The Dawn of AI in Creativity</a></li>
+                <li><a href="#what-is-ai-content">What is AI-Powered Content Creation?</a></li>
+                <li><a href="#key-benefits">The Undeniable Advantages</a></li>
+                <li><a href="#use-cases">Real-World Applications Shaping Industries</a></li>
+                <li><a href="#how-it-works">Behind the Scenes: How AI Generates Content</a></li>
+                <li><a href="#challenges-and-ethics">Navigating the Ethical Minefield</a></li>
+                <li><a href="#future-outlook">The Horizon: What's Next for AI and Creativity?</a></li>
+            </ul>
+        </div>
+
+        <main class="main-content">
+            <section id="introduction">
+                <h2>Introduction: The Dawn of AI in Creativity</h2>
+                <p>For centuries, content creation has been a distinctly human endeavor, fueled by imagination, emotion, and lived experience. From the epic poems of ancient bards to the intricate narratives of modern novels, the act of crafting compelling text, striking visuals, and engaging audio has been a testament to human intellect and artistry. However, the rapid advancement of artificial intelligence is ushering in a new era, where algorithms are increasingly becoming collaborators, tools, and even creators themselves.</p>
+                <p>This shift is not without its complexities. While AI offers unprecedented opportunities for efficiency, personalization, and innovation, it also raises profound questions about authorship, originality, and the very nature of creativity. As AI models become more sophisticated, capable of generating human-like text, realistic images, and even music, we stand at a fascinating crossroads. This post delves into the transformative role AI is playing in content creation, exploring its capabilities, benefits, challenges, and the exciting future it promises.</p>
+                <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="Abstract AI concept" class="section-image">
+            </section>
+
+            <section id="what-is-ai-content">
+                <h2>What is AI-Powered Content Creation?</h2>
+                <p>AI-powered content creation refers to the use of artificial intelligence technologies to generate, assist in, or optimize the process of creating various forms of content. This can range from writing articles, marketing copy, and social media posts to designing graphics, composing music, and even generating code. At its core, it involves leveraging machine learning algorithms, particularly natural language processing (NLP) and generative adversarial networks (GANs), to understand patterns, mimic styles, and produce novel outputs based on vast datasets.</p>
+                <p>These tools often work by taking prompts or instructions from human users and then using their trained models to generate relevant content. For instance, a writer might provide a topic and a few keywords, and an AI writing assistant could produce a draft article. Similarly, a designer might input a brand's aesthetic and desired mood, and an AI image generator could create visual concepts. The goal is not necessarily to replace human creators entirely, but to augment their abilities, speed up workflows, and unlock new creative possibilities.</p>
+            </section>
+
+            <section id="key-benefits">
+                <h2>The Undeniable Advantages</h2>
+                <p>The integration of AI into content creation workflows brings a host of compelling benefits. One of the most significant is the dramatic increase in efficiency and speed. AI can generate drafts, outlines, or variations of content in a fraction of the time it would take a human, allowing creators to focus on refinement and higher-level strategic thinking. This is particularly valuable in fast-paced industries where demand for fresh content is constant.</p>
+                <p>Personalization at scale is another major advantage. AI can analyze user data and preferences to tailor content to individual needs and interests, leading to more engaging and effective communication. Furthermore, AI tools can help overcome creative blocks by offering suggestions, generating ideas, and providing different perspectives. They can also assist in optimizing content for search engines (SEO), ensuring wider reach and impact. Finally, for businesses, AI can significantly reduce the cost of content production while maintaining or even improving quality.</p>
+            </section>
+
+            <section id="use-cases">
+                <h2>Real-World Applications Shaping Industries</h2>
+                <p>The applications of AI in content creation are diverse and rapidly expanding across numerous sectors. In marketing, AI is used to generate personalized email campaigns, ad copy variations, and social media updates. It helps in analyzing campaign performance and suggesting improvements, making marketing efforts more data-driven and effective. For e-commerce, AI can generate product descriptions, optimize pricing strategies, and create personalized shopping experiences.</p>
+                <p>The media and publishing industries are leveraging AI for everything from summarizing news articles and generating headlines to identifying trending topics and even writing basic reports. In education, AI can create personalized learning materials, quizzes, and provide instant feedback to students. Even in creative fields like gaming and film, AI is being used to generate character dialogue, design environments, and assist in scriptwriting, pushing the boundaries of what's possible in digital storytelling.</p>
+            </section>
+
+            <section id="how-it-works">
+                <h2>Behind the Scenes: How AI Generates Content</h2>
+                <p>The magic behind AI content generation lies in sophisticated algorithms, primarily deep learning models. Large Language Models (LLMs) like GPT-3 and its successors are trained on massive datasets of text and code, enabling them to understand grammar, context, and even nuances of human language. When given a prompt, these models predict the most probable sequence of words that would follow, effectively "writing" new content.</p>
+                <p>For visual content, Generative Adversarial Networks (GANs) are often employed. These consist of two neural networks: a generator that creates images and a discriminator that tries to distinguish between real and AI-generated images. Through this adversarial process, the generator learns to produce increasingly realistic and convincing visuals. The key is that these models learn patterns and structures from existing data, allowing them to synthesize new content that adheres to those learned principles.</p>
+                <pre><code>
+# Example: Basic prompt for an AI writing tool
+prompt = "Write a short, engaging social media post about the benefits of meditation."
+ai_response = generate_text(prompt)
+print(ai_response)
+                </code></pre>
+            </section>
+
+            <section id="challenges-and-ethics">
+                <h2>Navigating the Ethical Minefield</h2>
+                <p>Despite its immense potential, AI in content creation is fraught with ethical considerations. One of the primary concerns is the potential for misinformation and the creation of fake news at an unprecedented scale. AI can generate highly convincing, yet entirely fabricated, content, making it harder to discern truth from falsehood. This necessitates robust fact-checking mechanisms and ethical guidelines for AI development and deployment.</p>
+                <p>Another critical issue is authorship and intellectual property. When AI generates content, who owns it? This is a complex legal and philosophical question that is still being debated. Furthermore, there's the risk of AI perpetuating biases present in its training data, leading to discriminatory or unfair content. Ensuring fairness, transparency, and accountability in AI systems is paramount to prevent these issues from undermining trust and causing harm. The impact on human jobs in creative industries also remains a significant societal concern.</p>
+            </section>
+
+            <section id="future-outlook">
+                <h2>The Horizon: What's Next for AI and Creativity?</h2>
+                <p>The future of AI in content creation is incredibly promising and likely to involve even deeper integration and more sophisticated capabilities. We can anticipate AI models becoming even more adept at understanding complex prompts, generating multi-modal content (e.g., text with accompanying images and audio), and collaborating with humans in more nuanced ways. Imagine AI acting as a co-writer, offering real-time suggestions, fact-checking, and stylistic advice as a human writes.</p>
+                <p>Personalization will reach new heights, with AI capable of dynamically generating content tailored not just to demographics, but to individual emotional states and immediate contexts. Furthermore, AI may unlock entirely new forms of creative expression that are currently unimaginable. The focus will likely shift from AI as a mere tool to AI as an intelligent partner, augmenting human creativity and expanding the horizons of what we can conceive and produce. The ethical landscape will continue to evolve, demanding ongoing dialogue and adaptation to ensure AI serves humanity's creative spirit responsibly.</p>
+            </section>
+
+            <div class="card card-key-takeaways accent-left">
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li>AI significantly enhances content creation efficiency and speed.</li>
+                    <li>It enables personalization at scale, tailoring content to individual users.</li>
+                    <li>AI tools assist in overcoming creative blocks and optimizing content.</li>
+                    <li>Ethical concerns include misinformation, authorship, and bias.</li>
+                    <li>The future promises deeper human-AI collaboration and new creative frontiers.</li>
+                </ul>
+            </div>
+
+            <div class="card card-quick-tips accent-left">
+                <h3>Quick Tips for Using AI in Content Creation</h3>
+                <ul>
+                    <li>Start with clear, detailed prompts.</li>
+                    <li>Always review and edit AI-generated content for accuracy and tone.</li>
+                    <li>Use AI as a co-creator, not a replacement for human judgment.</li>
+                    <li>Experiment with different AI tools and models.</li>
+                    <li>Be mindful of ethical implications and potential biases.</li>
+                </ul>
+            </div>
+
+            <div class="card card-did-you-know accent-left">
+                <h3>Did You Know?</h3>
+                <p>Some AI models can now generate entire fictional books based on a single sentence prompt, demonstrating their rapidly advancing narrative capabilities.</p>
+            </div>
+
+            <div class="card card-important accent-left">
+                <h3>Important Note</h3>
+                <p>While AI can produce impressive content, it lacks genuine human experience, emotion, and critical judgment. Human oversight is crucial for ensuring quality, authenticity, and ethical compliance.</p>
+            </div>
+
+            <div class="comments-section">
+                <h2>Leave a Comment</h2>
+                <form class="comment-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Comment" required></textarea>
+                    <button type="submit" class="submit-button">Post Comment</button>
+                </form>
+            </div>
+
+            <div class="like-section" style="text-align: center; margin-top: 2rem; margin-bottom: 2rem;">
+                <button class="like-button" id="likeButton">
+                    <span class="heart-icon">🤍</span>
+                    Like
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="back-to-home-section">
+        <a href="https://aitota-community.pages.dev/" class="back-to-home-button" target="_blank">
+            <span class="home-icon">🏠</span>
+            Back to Home
+        </a>
+    </div>
+
+    <button class="back-to-top" id="backToTopBtn" aria-label="Back to Top">
+        &uarr;
+    </button>
+
+    <script>
+        const progressBar = document.getElementById('progressBar');
+        const likeButton = document.getElementById('likeButton');
+        const heartIcon = likeButton.querySelector('.heart-icon');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
+
+            // Back to Top Button visibility
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Like Button Functionality
+        likeButton.addEventListener('click', () => {
+            likeButton.classList.toggle('liked');
+            if (likeButton.classList.contains('liked')) {
+                heartIcon.textContent = '❤️';
+                likeButton.style.backgroundColor = 'var(--secondary)'; // Change color on like
+                likeButton.style.boxShadow = '0 6px 20px rgba(139, 92, 255, 0.5)';
+            } else {
+                heartIcon.textContent = '🤍';
+                likeButton.style.backgroundColor = 'var(--primary)'; // Revert to primary color
+                likeButton.style.boxShadow = '0 4px 15px rgba(99, 102, 241, 0.4)';
+            }
+        });
+
+        // Back to Top Button Scroll
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Share Logic
+        const shareButton = document.createElement('button');
+        shareButton.textContent = 'Share';
+        shareButton.classList.add('like-button'); // Reuse styling
+        shareButton.style.backgroundColor = '#5046e1'; // A slightly different accent for share
+        shareButton.style.marginLeft = '15px';
+
+        const shareIcon = document.createElement('span');
+        shareIcon.textContent = '📤';
+        shareIcon.style.fontSize = '1.2rem';
+        shareButton.prepend(shareIcon);
+
+        // Find a suitable place to insert the share button, e.g., after the like button
+        const likeSection = document.querySelector('.like-section');
+        if (likeSection) {
+            likeSection.appendChild(shareButton);
+        }
+
+        shareButton.addEventListener('click', async () => {
+            const url = window.location.href;
+            const title = document.title;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: title,
+                        url: url
+                    });
+                    console.log('Link shared successfully!');
+                } catch (error) {
+                    console.error('Error sharing:', error);
+                }
+            } else {
+                // Fallback for browsers that don't support navigator.share
+                navigator.clipboard.writeText(url).then(() => {
+                    // Basic toast notification (can be styled further)
+                    const toast = document.createElement('div');
+                    toast.textContent = 'Link copied to clipboard!';
+                    toast.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background-color: var(--card-background);
+                        color: var(--text-color);
+                        padding: 10px 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 15px var(--shadow-color);
+                        z-index: 1001;
+                        opacity: 0;
+                        visibility: hidden;
+                        transition: opacity 0.5s ease, visibility 0.5s ease;
+                    `;
+                    document.body.appendChild(toast);
+                    toast.style.opacity = '1';
+                    toast.style.visibility = 'visible';
+                    setTimeout(() => {
+                        toast.style.opacity = '0';
+                        toast.style.visibility = 'hidden';
+                        toast.remove();
+                    }, 3000);
+                }).catch(err => {
+                    console.error('Failed to copy URL: ', err);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
